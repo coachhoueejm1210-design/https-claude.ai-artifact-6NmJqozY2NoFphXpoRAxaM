@@ -407,6 +407,12 @@ dialog.ask .dlg-in{gap:14px}
       <button class="btn sm" id="goNext">Ouvrir la prochaine séance</button>
       <button class="btn danger sm" id="delYouth">Supprimer ce parcours</button>
     </div>
+    <div class="row" style="margin-top:10px">
+      <button class="btn ghost sm" id="pdfFull">Exporter le suivi (PDF, avec notes)</button>
+      <button class="btn ghost sm" id="pdfSum">Synthèse sans notes (PDF)</button>
+      <span class="msg" id="pdfMsg" role="status"></span>
+    </div>
+    <p class="hint" style="margin-top:6px;max-width:70ch">Le PDF avec notes contient vos observations de séance : à ne transmettre qu’avec l’accord du jeune et de ses parents. La synthèse sans notes se partage plus facilement.</p>
     <h2 class="sr">Les dix séances</h2>
     <ol class="slist" id="sessions"></ol>
 
@@ -1170,18 +1176,17 @@ function backupLabel(){
 }
 function backupJSON(){ S.backupAt=new Date().toISOString(); saveS(); backupLabel(); return JSON.stringify(S,null,2); }
 function backupMsg(t,bad=false){ const m=$("#backupMsg"); m.textContent=t; m.classList.toggle("bad",bad); announce(t,{assertive:bad}); }
+/* remet un fichier au viewer : `downloads` dans la visionneuse d’artifacts, lien classique ailleurs */
+async function deliver(name,data,type){
+  const dl=window.claude?.use ? await window.claude.use("downloads") : null;
+  if(dl){ await dl.save({filename:name,data}); return; }
+  const a=document.createElement("a"); a.href=URL.createObjectURL(data instanceof Blob?data:new Blob([data],{type})); a.download=name;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+}
 $("#downloadBtn").addEventListener("click",async()=>{
   const at=new Date().toISOString(), name=`phenix-ado-sauvegarde-${at.slice(0,10)}.json`;
-  const json=JSON.stringify({...S,backupAt:at},null,2);
-  try{
-    /* dans la visionneuse d’artifacts, seul `downloads` peut remettre un fichier ; hors visionneuse, lien classique */
-    const dl=window.claude?.use ? await window.claude.use("downloads") : null;
-    if(dl) await dl.save({filename:name,data:json});
-    else{
-      const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([json],{type:"application/json"})); a.download=name;
-      document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),2000);
-    }
-  }catch(e){
+  try{ await deliver(name,JSON.stringify({...S,backupAt:at},null,2),"application/json"); }
+  catch(e){
     backupMsg(e&&e.code==="declined"?"Téléchargement annulé. Aucune sauvegarde n’a été enregistrée.":"Le téléchargement n’a pas pu se faire ici. Utilisez « Copier (JSON) ».",true); return;
   }
   S.backupAt=at; saveS(); backupLabel(); chime.ok();
@@ -1198,6 +1203,97 @@ $("#importFile").addEventListener("change",async e=>{
   S=data; saveS(); renderPick(); renderHome(); backupLabel(); go("home",{focus:false}); chime.ok();
   backupMsg(`Sauvegarde restaurée : ${data.youths.length} parcours.`);
 });
+
+/* ---------- export PDF du suivi ---------- */
+let pdfLib=null;
+function loadPDF(){
+  if(window.jspdf) return Promise.resolve(window.jspdf.jsPDF);
+  return pdfLib=pdfLib||new Promise((res,rej)=>{
+    const sc=document.createElement("script");
+    sc.src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
+    sc.onload=()=>window.jspdf?res(window.jspdf.jsPDF):rej(new Error("jspdf"));
+    sc.onerror=()=>{ pdfLib=null; rej(new Error("réseau")); };
+    document.head.appendChild(sc);
+  });
+}
+/* polices standard du PDF : on garde latin-1 (accents français compris), le reste est normalisé ou retiré */
+const pdfTxt=t=>String(t).replace(/[‘’]/g,"'").replace(/[“”]/g,'"').replace(/[–—]/g,"-").replace(/…/g,"...").replace(/→/g,"->").replace(/\t/g," ").replace(/[^\n\x20-\x7E -ÿ]/g,"");
+const slug=t=>t.normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-zA-Z0-9]+/g,"-").replace(/^-|-$/g,"").toLowerCase()||"jeune";
+
+async function exportPDF(withNotes){
+  const y=Y(); if(!y) return;
+  const msg=$("#pdfMsg"), btns=[$("#pdfFull"),$("#pdfSum")];
+  const say=(t,bad)=>{ msg.textContent=t; msg.classList.toggle("bad",!!bad); announce(t,{assertive:!!bad}); };
+  btns.forEach(b=>b.disabled=true); say("Préparation du PDF…");
+  try{
+    let JsPDF; try{ JsPDF=await loadPDF(); }catch(e){ say("Le PDF n’a pas pu être préparé : la bibliothèque de génération n’a pas pu se charger (connexion nécessaire une première fois).",true); return; }
+    const doc=new JsPDF({unit:"mm",format:"a4"}), M=18, CW=174, BOT=282;
+    let yy=M;
+    const INK=[16,38,42], DIM=[90,116,121], PET=[27,94,99], ALR=[160,53,42], SAGE=[47,114,83];
+    const need=h=>{ if(yy+h>BOT){ doc.addPage(); yy=M; } };
+    const write=(txt,o={})=>{
+      const {size=10,bold=false,color=INK,gap=1.4,indent=0}=o;
+      doc.setFont("helvetica",bold?"bold":"normal"); doc.setFontSize(size); doc.setTextColor(...color);
+      const lh=size*0.3528*1.4;
+      for(const l of doc.splitTextToSize(pdfTxt(txt),CW-indent)){ need(lh); doc.text(l,M+indent,yy+lh*0.8); yy+=lh; }
+      yy+=gap;
+    };
+    const rule=()=>{ need(4); doc.setDrawColor(207,221,217); doc.setLineWidth(.3); doc.line(M,yy,M+CW,yy); yy+=4; };
+
+    const dn=doneCount(y), nx=nextSession(y), alerts=Object.values(y.s||{}).filter(r=>r&&r.alert).length;
+    const today=new Date().toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"});
+    write("Phénix Ado",{size:9,bold:true,color:DIM,gap:0});
+    write(withNotes?"Suivi du parcours":"Synthèse du parcours",{size:20,bold:true,color:PET,gap:2});
+    write(`${y.name}, ${y.age} ans`,{size:13,bold:true,gap:1});
+    write(`Parcours démarré le ${fmtSay(y.start)} · document établi le ${today}`,{size:9.5,color:DIM,gap:3});
+    rule();
+    write("Avancement",{size:12,bold:true,color:PET,gap:1});
+    write(`${dn} séance${dn>1?"s":""} sur 10 réalisée${dn>1?"s":""}.`+(dn>=10?" Parcours terminé.":` Prochaine séance : séance ${nx}, ${SESSIONS[nx-1].t} (étape ${ETAPES[SESSIONS[nx-1].e]}).`),{gap:1});
+    if(alerts) write(`Signal d’alerte noté sur ${alerts} séance${alerts>1?"s":""} (mode soutien).`,{color:ALR,bold:true,gap:1});
+    yy+=2;
+
+    write("Échelles de 0 à 10",{size:12,bold:true,color:PET,gap:1});
+    const cols=[M,M+62,M+92,M+122]; need(40);
+    doc.setFont("helvetica","bold"); doc.setFontSize(8.5); doc.setTextColor(...DIM);
+    ["ÉCHELLE","SÉANCE 1","SÉANCE 9","ÉCART"].forEach((h,i)=>doc.text(h,cols[i],yy+3)); yy+=6;
+    ECHELLES.forEach(e=>{
+      const a=y.base?y.base[e.k]:null, b=y.final?y.final[e.k]:null, d=(a!=null&&b!=null)?b-a:null;
+      const good=d===null?null:(e.k==="stress"?d<0:d>0), bad=d===null?null:(e.k==="stress"?d>0:d<0);
+      need(7); doc.setFont("helvetica","normal"); doc.setFontSize(10); doc.setTextColor(...INK);
+      doc.text(pdfTxt(e.l),cols[0],yy+4); doc.text(a==null?"-":String(a),cols[1],yy+4); doc.text(b==null?"-":String(b),cols[2],yy+4);
+      doc.setFont("helvetica","bold"); doc.setTextColor(...(good?SAGE:bad?ALR:INK));
+      doc.text(d===null?"-":(d>0?"+"+d:String(d))+(d===null?"":good?"  progrès":bad?"  recul":"  stable"),cols[3],yy+4);
+      yy+=6.5;
+    });
+    write("L'écart, pas la valeur absolue, est l'indicateur. Pour le stress, une baisse est un progrès.",{size:8.5,color:DIM,gap:3});
+    rule();
+
+    write("Séance par séance",{size:12,bold:true,color:PET,gap:2});
+    SESSIONS.forEach(s=>{
+      const r=(y.s&&y.s[s.n])||{};
+      need(withNotes&&r.note?26:16);
+      write(`Séance ${s.n} · ${ETAPES[s.e]} : ${s.t}`,{bold:true,size:10.5,gap:.4});
+      const st=r.done?`Réalisée${r.at?" le "+fmtSay(r.at):""}`:(s.n===nx?"Prochaine séance":"À venir");
+      write(st,{size:9.5,color:r.done?SAGE:DIM,bold:!!r.done,gap:.6});
+      if(r.alert) write("Signal d'alerte : séance passée en mode soutien.",{size:9.5,color:ALR,bold:true,gap:.6});
+      if(withNotes&&r.note&&r.note.trim()) write(r.note.trim(),{size:9.5,indent:4,gap:.6});
+      yy+=2.5;
+    });
+
+    const n=doc.getNumberOfPages();
+    for(let i=1;i<=n;i++){
+      doc.setPage(i); doc.setFont("helvetica","normal"); doc.setFontSize(8); doc.setTextColor(...DIM);
+      doc.text(pdfTxt("Document confidentiel, à usage professionnel. Aucun diagnostic. Le coaching ne remplace pas un suivi psychologique ou médical."),M,291);
+      doc.text(`${i} / ${n}`,M+CW,291,{align:"right"});
+    }
+    const name=`${withNotes?"suivi":"synthese"}-${slug(y.name)}-${new Date().toISOString().slice(0,10)}.pdf`;
+    try{ await deliver(name,doc.output("blob"),"application/pdf"); }
+    catch(e){ say(e&&e.code==="declined"?"Export annulé.":"Le PDF n’a pas pu être enregistré ici.",true); return; }
+    chime.ok(); say(withNotes?"PDF du suivi prêt. Il contient vos notes : transmettez-le avec précaution.":"PDF de synthèse prêt.");
+  } finally { btns.forEach(b=>b.disabled=false); }
+}
+$("#pdfFull").addEventListener("click",()=>exportPDF(true));
+$("#pdfSum").addEventListener("click",()=>exportPDF(false));
 
 /* lecteur */
 $("#plPause").addEventListener("click",togglePause);
