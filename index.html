@@ -737,8 +737,8 @@ function store(k,v){ try{localStorage.setItem(k,JSON.stringify(v));}catch(e){} }
 /* Données lues ou importées : on ne garde que ce qui a la bonne forme (stockage altéré, fichier étranger). */
 const clampN=(v,a,b,d)=>{ v=parseInt(v,10); return Number.isFinite(v)?Math.min(b,Math.max(a,v)):d; };
 function cleanScales(o){ if(!o||typeof o!=="object") return null; const r={}; for(const e of ECHELLES) r[e.k]=clampN(o[e.k],0,10,5); return r; }
-const PRO_DEFAULT={name:"Jean-Michel Houée",title:"Coach professionnel certifié RNCP niveau 6 · La Réunion",contact:""};
-function cleanPro(o){ const r={}; for(const k of Object.keys(PRO_DEFAULT)) r[k]=(o&&typeof o[k]==="string"?o[k]:PRO_DEFAULT[k]).trim().slice(0,k==="contact"?160:90); return r; }
+const PRO_DEFAULT={name:"Jean-Michel Houée",title:"Coach professionnel certifié RNCP niveau 6 · La Réunion",contact:"Tél. 06 93 54 14 40 · coachhoueejm1210@gmail.com"};
+function cleanPro(o){ const r={edited:!!(o&&o.edited)}; if(!r.edited) o=null; for(const k of Object.keys(PRO_DEFAULT)) r[k]=(o&&typeof o[k]==="string"?o[k]:PRO_DEFAULT[k]).trim().slice(0,k==="contact"?160:90); return r; }
 function cleanState(raw){
   if(!raw||typeof raw!=="object"||!Array.isArray(raw.youths)) return null;
   const youths=raw.youths.filter(y=>y&&typeof y==="object"&&typeof y.name==="string"&&y.name.trim()).map((y,i)=>{
@@ -1220,7 +1220,7 @@ $("#importFile").addEventListener("change",async e=>{
 const PRO_IDS={name:"#proName",title:"#proTitle",contact:"#proContact"};
 function paintPro(){ for(const k in PRO_IDS) $(PRO_IDS[k]).value=S.pro[k]; }
 let proT=null;
-for(const k in PRO_IDS) $(PRO_IDS[k]).addEventListener("input",e=>{ S.pro[k]=e.target.value; clearTimeout(proT); proT=setTimeout(saveS,300); });
+for(const k in PRO_IDS) $(PRO_IDS[k]).addEventListener("input",e=>{ S.pro[k]=e.target.value; S.pro.edited=true; clearTimeout(proT); proT=setTimeout(saveS,300); });
 
 /* ---------- export PDF du suivi ---------- */
 let pdfLib=null;
