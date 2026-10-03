@@ -365,6 +365,16 @@ dialog.ask .dlg-in{gap:14px}
     <h2 class="sr">Jeunes accompagnés</h2>
     <ul class="grid" id="youths"></ul>
 
+    <section class="newcard" aria-labelledby="proT" style="border-style:solid">
+      <h2 id="proT">En-tête des PDF</h2>
+      <p class="hint" style="margin-top:6px">Ces informations figurent en haut des PDF de suivi et de synthèse, sous la mention « Établi par ». Laissez un champ vide pour ne pas l’afficher. Enregistrement automatique.</p>
+      <div class="fields">
+        <div class="field"><label for="proName">Nom</label><input id="proName" type="text" autocomplete="off" maxlength="90"></div>
+        <div class="field"><label for="proTitle">Titre ou certification</label><input id="proTitle" type="text" autocomplete="off" maxlength="90"></div>
+        <div class="field"><label for="proContact">Coordonnées (facultatif)</label><input id="proContact" type="text" autocomplete="off" maxlength="160" placeholder="Téléphone, e-mail…"></div>
+      </div>
+    </section>
+
     <section class="newcard" aria-labelledby="newT">
       <h2 id="newT">Nouveau parcours</h2>
       <form id="newForm" novalidate>
@@ -727,6 +737,8 @@ function store(k,v){ try{localStorage.setItem(k,JSON.stringify(v));}catch(e){} }
 /* Données lues ou importées : on ne garde que ce qui a la bonne forme (stockage altéré, fichier étranger). */
 const clampN=(v,a,b,d)=>{ v=parseInt(v,10); return Number.isFinite(v)?Math.min(b,Math.max(a,v)):d; };
 function cleanScales(o){ if(!o||typeof o!=="object") return null; const r={}; for(const e of ECHELLES) r[e.k]=clampN(o[e.k],0,10,5); return r; }
+const PRO_DEFAULT={name:"Jean-Michel Houée",title:"Coach professionnel certifié RNCP niveau 6 · La Réunion",contact:""};
+function cleanPro(o){ const r={}; for(const k of Object.keys(PRO_DEFAULT)) r[k]=(o&&typeof o[k]==="string"?o[k]:PRO_DEFAULT[k]).trim().slice(0,k==="contact"?160:90); return r; }
 function cleanState(raw){
   if(!raw||typeof raw!=="object"||!Array.isArray(raw.youths)) return null;
   const youths=raw.youths.filter(y=>y&&typeof y==="object"&&typeof y.name==="string"&&y.name.trim()).map((y,i)=>{
@@ -736,7 +748,7 @@ function cleanState(raw){
       start:/^\d{4}-\d{2}-\d{2}$/.test(y.start||"")?y.start:new Date().toISOString().slice(0,10),s,base:cleanScales(y.base),final:cleanScales(y.final)};
   });
   const ids=new Set(); youths.forEach(y=>{ while(ids.has(y.id)) y.id+="x"; ids.add(y.id); });
-  return {youths,cur:youths.some(y=>y.id===raw.cur)?raw.cur:(youths[0]?.id||null),backupAt:typeof raw.backupAt==="string"?raw.backupAt:null};
+  return {youths,cur:youths.some(y=>y.id===raw.cur)?raw.cur:(youths[0]?.id||null),backupAt:typeof raw.backupAt==="string"?raw.backupAt:null,pro:cleanPro(raw.pro)};
 }
 let S=cleanState(load(KEY,DEMO))||cleanState(DEMO);
 const P=Object.assign({audio:false,focus:false,timer:true,chime:true,voice:"",rate:1,size:"m",contrast:false},load(PKEY,{}));
@@ -1200,9 +1212,15 @@ $("#importFile").addEventListener("change",async e=>{
   if(!data){ backupMsg("Ce fichier n’est pas une sauvegarde Phénix Ado valide. Rien n’a été modifié.",true); return; }
   const ok=await ask("Restaurer cette sauvegarde ?",`Le fichier contient ${data.youths.length} parcours. Les parcours actuellement sur cet appareil (${(S.youths||[]).length}) seront remplacés.`,"Remplacer");
   if(!ok){ backupMsg("Restauration annulée."); return; }
-  S=data; saveS(); renderPick(); renderHome(); backupLabel(); go("home",{focus:false}); chime.ok();
+  S=data; saveS(); renderPick(); renderHome(); paintPro(); backupLabel(); go("home",{focus:false}); chime.ok();
   backupMsg(`Sauvegarde restaurée : ${data.youths.length} parcours.`);
 });
+
+/* ---------- en-tête professionnel ---------- */
+const PRO_IDS={name:"#proName",title:"#proTitle",contact:"#proContact"};
+function paintPro(){ for(const k in PRO_IDS) $(PRO_IDS[k]).value=S.pro[k]; }
+let proT=null;
+for(const k in PRO_IDS) $(PRO_IDS[k]).addEventListener("input",e=>{ S.pro[k]=e.target.value; clearTimeout(proT); proT=setTimeout(saveS,300); });
 
 /* ---------- export PDF du suivi ---------- */
 let pdfLib=null;
@@ -1246,6 +1264,14 @@ async function exportPDF(withNotes){
     write(withNotes?"Suivi du parcours":"Synthèse du parcours",{size:20,bold:true,color:PET,gap:2});
     write(`${y.name}, ${y.age} ans`,{size:13,bold:true,gap:1});
     write(`Parcours démarré le ${fmtSay(y.start)} · document établi le ${today}`,{size:9.5,color:DIM,gap:3});
+    const pro=S.pro||{};
+    if(pro.name||pro.title||pro.contact){
+      write("ÉTABLI PAR",{size:8,bold:true,color:DIM,gap:.3});
+      if(pro.name) write(pro.name,{bold:true,size:10.5,gap:.2});
+      if(pro.title) write(pro.title,{size:9.5,color:INK,gap:.2});
+      if(pro.contact) write(pro.contact,{size:9.5,color:DIM,gap:.2});
+      yy+=2.5;
+    }
     rule();
     write("Avancement",{size:12,bold:true,color:PET,gap:1});
     write(`${dn} séance${dn>1?"s":""} sur 10 réalisée${dn>1?"s":""}.`+(dn>=10?" Parcours terminé.":` Prochaine séance : séance ${nx}, ${SESSIONS[nx-1].t} (étape ${ETAPES[SESSIONS[nx-1].e]}).`),{gap:1});
@@ -1352,7 +1378,7 @@ window.addEventListener("resize",()=>document.documentElement.style.setProperty(
 /* ---------- démarrage ---------- */
 if(!S.youths) S.youths=[];
 if(!S.cur && S.youths[0]) S.cur=S.youths[0].id;
-applyPrefs(); renderSteps(); renderPick(); renderHome(); backupLabel(); go("home",{focus:false});
+applyPrefs(); renderSteps(); renderPick(); renderHome(); backupLabel(); paintPro(); go("home",{focus:false});
 </script>
 
 </body></html>
