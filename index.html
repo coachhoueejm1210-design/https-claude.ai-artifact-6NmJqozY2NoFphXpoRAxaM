@@ -1170,11 +1170,22 @@ function backupLabel(){
 }
 function backupJSON(){ S.backupAt=new Date().toISOString(); saveS(); backupLabel(); return JSON.stringify(S,null,2); }
 function backupMsg(t,bad=false){ const m=$("#backupMsg"); m.textContent=t; m.classList.toggle("bad",bad); announce(t,{assertive:bad}); }
-$("#downloadBtn").addEventListener("click",()=>{
-  const blob=new Blob([backupJSON()],{type:"application/json"}), a=document.createElement("a");
-  a.href=URL.createObjectURL(blob); a.download=`phenix-ado-sauvegarde-${new Date().toISOString().slice(0,10)}.json`;
-  document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),2000);
-  chime.ok(); backupMsg("Sauvegarde téléchargée. Rangez le fichier dans un endroit sûr : il contient des notes de séance.");
+$("#downloadBtn").addEventListener("click",async()=>{
+  const at=new Date().toISOString(), name=`phenix-ado-sauvegarde-${at.slice(0,10)}.json`;
+  const json=JSON.stringify({...S,backupAt:at},null,2);
+  try{
+    /* dans la visionneuse d’artifacts, seul `downloads` peut remettre un fichier ; hors visionneuse, lien classique */
+    const dl=window.claude?.use ? await window.claude.use("downloads") : null;
+    if(dl) await dl.save({filename:name,data:json});
+    else{
+      const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([json],{type:"application/json"})); a.download=name;
+      document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+    }
+  }catch(e){
+    backupMsg(e&&e.code==="declined"?"Téléchargement annulé. Aucune sauvegarde n’a été enregistrée.":"Le téléchargement n’a pas pu se faire ici. Utilisez « Copier (JSON) ».",true); return;
+  }
+  S.backupAt=at; saveS(); backupLabel(); chime.ok();
+  backupMsg("Sauvegarde téléchargée. Rangez le fichier dans un endroit sûr : il contient des notes de séance.");
 });
 $("#importBtn").addEventListener("click",()=>$("#importFile").click());
 $("#importFile").addEventListener("change",async e=>{
