@@ -1,0 +1,1251 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<title>Console Phénix Ado</title>
+<meta name="description" content="Console d’animation du parcours Phénix Ado — 10 séances, accessible au clavier, aux lecteurs d’écran et en mode audio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --ground:#F3F6F4; --surface:#FFFFFF; --surface-2:#E8EFEC; --line:#CFDDD9; --line-soft:#E2EBE8;
+  --ink:#10262A; --ink-2:#34505A; --ink-3:#5A7479;
+  --petrol:#1B5E63; --petrol-soft:#D9EBEA; --petrol-deep:#0F3D41;
+  --ember:#B8452D; --ember-soft:#FBE7E1;
+  --dawn:#A8651C; --dawn-soft:#FBEEDC; --dawn-line:#E0A45F;
+  --sage:#2F7253; --sage-soft:#DDEEE4;
+  --alert:#A0352A; --alert-soft:#F9E4E0;
+  --e1:#1B5E63; --e1s:#D9EBEA; --e2:#2F7253; --e2s:#DDEEE4; --e3:#A8651C; --e3s:#FBEEDC; --e4:#B8452D; --e4s:#FBE7E1;
+  --btn-ink:#FFFFFF;
+  --panel-bg:#0F3D41; --panel-ink:#FFFFFF; --panel-dim:rgba(255,255,255,.72); --panel-btn:rgba(255,255,255,.14); --panel-btn-h:rgba(255,255,255,.26);
+  --focus:#C2410C; --shadow:0 1px 2px rgba(16,38,42,.06),0 6px 20px -8px rgba(16,38,42,.18);
+  --r-s:8px; --r-m:14px; --r-l:22px;
+  --top-h:64px;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0B191C; --surface:#12282C; --surface-2:#1A363B; --line:#2A4B51; --line-soft:#1F3C41;
+    --ink:#E9F3F1; --ink-2:#B4CCCB; --ink-3:#8FAAAC;
+    --petrol:#6CC3BD; --petrol-soft:#173F43; --petrol-deep:#9ADCD6;
+    --ember:#F2876A; --ember-soft:#3A2119; --dawn:#E8B06C; --dawn-soft:#372818; --dawn-line:#A8702F;
+    --sage:#7CC89D; --sage-soft:#16332A; --alert:#F4907F; --alert-soft:#3C1D18;
+    --e1:#6CC3BD; --e1s:#173F43; --e2:#7CC89D; --e2s:#16332A; --e3:#E8B06C; --e3s:#372818; --e4:#F2876A; --e4s:#3A2119;
+    --btn-ink:#06191B; --panel-bg:#1A363B; --panel-ink:#E9F3F1; --panel-dim:#A2BDBE; --panel-btn:#2A4B51; --panel-btn-h:#355C63;
+    --focus:#FDBA74; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -10px rgba(0,0,0,.6);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0B191C; --surface:#12282C; --surface-2:#1A363B; --line:#2A4B51; --line-soft:#1F3C41;
+  --ink:#E9F3F1; --ink-2:#B4CCCB; --ink-3:#8FAAAC;
+  --petrol:#6CC3BD; --petrol-soft:#173F43; --petrol-deep:#9ADCD6;
+  --ember:#F2876A; --ember-soft:#3A2119; --dawn:#E8B06C; --dawn-soft:#372818; --dawn-line:#A8702F;
+  --sage:#7CC89D; --sage-soft:#16332A; --alert:#F4907F; --alert-soft:#3C1D18;
+  --e1:#6CC3BD; --e1s:#173F43; --e2:#7CC89D; --e2s:#16332A; --e3:#E8B06C; --e3s:#372818; --e4:#F2876A; --e4s:#3A2119;
+  --btn-ink:#06191B; --panel-bg:#1A363B; --panel-ink:#E9F3F1; --panel-dim:#A2BDBE; --panel-btn:#2A4B51; --panel-btn-h:#355C63;
+  --focus:#FDBA74; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -10px rgba(0,0,0,.6);
+  color-scheme:dark;
+}
+/* Contraste renforcé : un seul univers, noir sur blanc, choisi volontairement */
+:root[data-contrast="high"]{
+  --ground:#FFFFFF; --surface:#FFFFFF; --surface-2:#F1F1F1; --line:#000000; --line-soft:#000000;
+  --ink:#000000; --ink-2:#000000; --ink-3:#1A1A1A;
+  --petrol:#003A40; --petrol-soft:#FFFFFF; --petrol-deep:#000000;
+  --ember:#8A1C00; --ember-soft:#FFFFFF; --dawn:#6B3A00; --dawn-soft:#FFF3B0; --dawn-line:#000000;
+  --sage:#004D26; --sage-soft:#FFFFFF; --alert:#8A0000; --alert-soft:#FFFFFF;
+  --e1:#003A40; --e1s:#FFFFFF; --e2:#004D26; --e2s:#FFFFFF; --e3:#6B3A00; --e3s:#FFFFFF; --e4:#8A1C00; --e4s:#FFFFFF;
+  --btn-ink:#FFFFFF; --panel-bg:#000000; --panel-ink:#FFFFFF; --panel-dim:#FFFFFF; --panel-btn:#333333; --panel-btn-h:#555555;
+  --focus:#C2410C; --shadow:none;
+  color-scheme:light;
+}
+:root[data-size="l"]{font-size:115%}
+:root[data-size="xl"]{font-size:132%}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:"Atkinson Hyperlegible",Verdana,"Segoe UI",Arial,sans-serif;font-size:1rem;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:Fraunces,Georgia,"Times New Roman",serif;font-weight:600;margin:0;text-wrap:balance;letter-spacing:-.01em;color:var(--ink)}
+h1{font-size:clamp(1.6rem,1.25rem + 1.4vw,2.3rem);line-height:1.12}
+h2{font-size:1.35rem;line-height:1.2}
+h3{font-size:1.1rem;line-height:1.25}
+p{margin:0}
+[tabindex="-1"]:focus{outline:none}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:6px}
+:root[data-contrast="high"] :focus-visible{outline-width:4px;box-shadow:0 0 0 7px #FFE500}
+.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+.eyebrow{font-size:.74rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.sr{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip{position:absolute;left:12px;top:-60px;z-index:100;background:var(--petrol);color:var(--btn-ink);padding:10px 16px;border-radius:999px;font-weight:700;text-decoration:none}
+.skip:focus{top:calc(env(safe-area-inset-top,0px) + 10px)}
+
+/* ---------- barre haute ---------- */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:var(--surface);border-bottom:1px solid var(--line);padding:10px 16px}
+.top-in{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;background:none;border:0;padding:4px;text-align:left}
+.brand svg{width:34px;height:34px;flex:none}
+.brand b{font-family:Fraunces,Georgia,serif;font-size:1.15rem;font-weight:700;display:block;line-height:1.1}
+.brand span{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:700;display:block}
+.top .sp{flex:1}
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+select.pick{padding:8px 10px;border:1px solid var(--line);border-radius:var(--r-s);background:var(--surface);max-width:220px;min-height:44px}
+.audio-toggle{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:6px 14px 6px 8px;border-radius:999px;border:1.5px solid var(--petrol);background:var(--surface);color:var(--petrol);font-weight:700}
+.audio-toggle .dot{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--petrol-soft)}
+.audio-toggle svg{width:18px;height:18px}
+.audio-toggle[aria-pressed="true"]{background:var(--petrol);color:var(--btn-ink)}
+.audio-toggle[aria-pressed="true"] .dot{background:var(--panel-btn)}
+
+/* ---------- boutons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--petrol);color:var(--btn-ink);border:0;padding:10px 18px;min-height:44px;border-radius:999px;font-weight:700;font-size:.95rem}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:var(--surface);color:var(--petrol);border:1.5px solid var(--line)}
+.btn.ghost:hover{border-color:var(--petrol);filter:none}
+.btn.sm{padding:7px 14px;font-size:.88rem;min-height:40px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn svg{width:18px;height:18px;flex:none}
+.listen{display:inline-flex;align-items:center;gap:6px;background:var(--petrol-soft);color:var(--petrol-deep);border:0;border-radius:999px;padding:6px 13px;min-height:38px;font-weight:700;font-size:.86rem}
+.listen:hover{background:var(--petrol);color:var(--btn-ink)}
+.listen svg{width:16px;height:16px}
+:root[data-contrast="high"] .listen{border:2px solid #000}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+.wrap{padding-block:26px 140px;padding-inline:16px;max-width:1240px;margin:0 auto}
+@media (min-width:760px){.wrap{padding-inline:28px}.top{padding-inline:28px}}
+.view[hidden]{display:none!important}
+
+/* ---------- cadre de sécurité ---------- */
+.safety{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:start;background:var(--alert-soft);border:1px solid color-mix(in srgb,var(--alert) 30%,transparent);padding:14px 16px;border-radius:var(--r-m);font-size:.92rem;color:var(--ink-2);margin-bottom:26px}
+.safety svg{width:26px;height:26px;color:var(--alert);margin-top:2px}
+.safety b{color:var(--ink)}
+.safety .tel{font-family:"IBM Plex Mono",monospace;font-weight:600;color:var(--alert);font-size:1.02rem}
+:root[data-contrast="high"] .safety{border:2px solid #000}
+
+/* ---------- accueil ---------- */
+.hero{display:grid;gap:18px;grid-template-columns:minmax(0,1fr);align-items:end;margin-bottom:26px}
+@media (min-width:900px){.hero{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr)}}
+.hero p.lead{color:var(--ink-2);margin-top:10px;max-width:62ch;font-size:1.05rem}
+.steps4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:0;padding:0;list-style:none}
+.steps4 li{border-radius:var(--r-s);padding:10px 10px 9px;font-size:.8rem;line-height:1.3;background:var(--es);color:var(--ink)}
+.steps4 li b{display:block;font-family:"IBM Plex Mono",monospace;color:var(--ec);font-size:.72rem;letter-spacing:.06em}
+@media (max-width:480px){.steps4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+:root[data-contrast="high"] .steps4 li{border:2px solid #000}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;margin:0;padding:0;list-style:none}
+.ycard{width:100%;height:100%;text-align:left;background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r-m);padding:16px;display:grid;grid-template-columns:72px minmax(0,1fr);gap:14px;align-items:center;box-shadow:var(--shadow);transition:border-color .15s,transform .15s}
+.ycard:hover{border-color:var(--petrol);transform:translateY(-1px)}
+.ring{width:72px;height:72px;position:relative}
+.ring svg{width:72px;height:72px;transform:rotate(-90deg)}
+.ring .n{position:absolute;inset:0;display:grid;place-items:center;font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:.95rem;color:var(--ink)}
+.ycard .nm{font-family:Fraunces,Georgia,serif;font-size:1.3rem;font-weight:600;line-height:1.15}
+.ycard .meta{font-size:.86rem;color:var(--ink-3)}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px;font-size:.78rem;font-weight:700;background:var(--es);color:var(--ec);margin-top:6px}
+.pill i{width:8px;height:8px;border-radius:2px;background:var(--ec);display:inline-block}
+:root[data-contrast="high"] .pill{border:1.5px solid #000}
+
+.newcard{margin-top:26px;background:var(--surface);border:1.5px dashed var(--line);border-radius:var(--r-m);padding:20px;max-width:680px}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:12px 0 16px}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:.88rem;font-weight:700;color:var(--ink-2)}
+.field input{padding:10px 12px;min-height:44px;border:1.5px solid var(--line);border-radius:var(--r-s);background:var(--surface)}
+.field .err{color:var(--alert);font-size:.84rem;font-weight:700}
+.hint{font-size:.86rem;color:var(--ink-3)}
+textarea.exportbox{width:100%;min-height:140px;margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:.78rem}
+
+/* ---------- parcours ---------- */
+.yhead{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+.yhead .ring,.yhead .ring svg{width:88px;height:88px}
+.slist{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:24px 0 0;padding:0;list-style:none}
+.slist li{display:flex}
+.scard{width:100%;text-align:left;background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r-m);padding:14px 15px;display:flex;flex-direction:column;gap:6px;min-height:124px}
+.scard:hover{border-color:var(--petrol)}
+.scard .sn{display:flex;justify-content:space-between;gap:8px;align-items:center;font-family:"IBM Plex Mono",monospace;font-size:.74rem;font-weight:600;letter-spacing:.06em;color:var(--ec)}
+.scard .st{font-family:Fraunces,Georgia,serif;font-size:1.08rem;font-weight:600;line-height:1.25}
+.scard .se{margin-top:auto;font-size:.82rem;color:var(--ink-3);display:flex;align-items:center;gap:6px}
+.scard.done{background:var(--sage-soft);border-color:var(--sage)}
+.scard.done .se{color:var(--sage);font-weight:700}
+.scard.next{border-color:var(--dawn-line);box-shadow:0 0 0 3px var(--dawn-soft)}
+.check{width:18px;height:18px}
+
+.scales-card{margin-top:28px;background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r-m);padding:20px}
+.tbl-wrap{overflow-x:auto}
+table.cmp{border-collapse:collapse;min-width:420px;width:100%;max-width:640px;font-size:.95rem}
+table.cmp caption{text-align:left;padding-bottom:12px}
+table.cmp th,table.cmp td{padding:9px 10px;border-bottom:1px solid var(--line-soft);text-align:right}
+table.cmp th:first-child,table.cmp td:first-child{text-align:left}
+table.cmp thead th{font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+table.cmp td.n{font-family:"IBM Plex Mono",monospace;font-weight:600}
+.bar{display:inline-block;height:8px;border-radius:4px;background:var(--petrol);vertical-align:middle;margin-left:8px;opacity:.55}
+.up{color:var(--sage)}.dn{color:var(--alert)}
+
+/* ---------- séance ---------- */
+.runbar{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--top-h));z-index:30;background:var(--panel-bg);color:var(--panel-ink);border-radius:var(--r-m);padding:14px 18px 16px;margin-bottom:24px;box-shadow:var(--shadow)}
+.runbar-in{display:flex;align-items:center;gap:12px 20px;flex-wrap:wrap}
+.clock{font-family:"IBM Plex Mono",monospace;font-size:2.2rem;font-weight:600;line-height:1;letter-spacing:-.02em}
+.runbar .lab{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--panel-dim);font-weight:700}
+.runbar .now{font-size:.95rem;color:var(--panel-ink);flex:1;min-width:190px}
+.runbar .now small{display:block;color:var(--panel-dim);font-size:.82rem}
+.tbtn{background:var(--panel-btn);border:0;color:inherit;padding:9px 16px;min-height:44px;border-radius:999px;font-weight:700;font-size:.9rem;display:inline-flex;align-items:center;gap:7px}
+.tbtn:hover{background:var(--panel-btn-h)}
+.tbtn svg{width:16px;height:16px}
+.tbtn.primary{background:var(--dawn);color:#1B1206}
+:root[data-contrast="high"] .tbtn{border:2px solid #fff}
+.track{display:flex;gap:3px;margin-top:14px;height:12px;position:relative}
+.track span{height:100%;border-radius:3px;background:var(--panel-btn)}
+.track span.past{background:var(--panel-dim);opacity:.55}
+.track span.cur{background:var(--dawn)}
+
+.shead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}
+.block{margin-top:30px}
+.bhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.chip{background:var(--surface-2);border-radius:999px;padding:6px 14px;font-size:.9rem}
+:root[data-contrast="high"] .chip{border:1.5px solid #000}
+
+ol.seq{list-style:none;margin:0;padding:0;border:1.5px solid var(--line);border-radius:var(--r-m);overflow:hidden;background:var(--surface)}
+.seg{display:grid;grid-template-columns:92px 190px minmax(0,1fr) auto;gap:14px;padding:16px 18px;border-bottom:1px solid var(--line-soft);align-items:start}
+.seg:last-child{border-bottom:0}
+.seg.active{background:var(--dawn-soft);box-shadow:inset 5px 0 0 var(--dawn)}
+.seg .tm{font-family:"IBM Plex Mono",monospace;font-size:.86rem;font-weight:600;color:var(--ink-3)}
+.seg .tm small{display:block;font-weight:500;font-size:.74rem}
+.seg.active .tm{color:var(--dawn)}
+.seg .nm{font-weight:700;font-size:1rem}
+.seg .cs{font-size:.96rem;color:var(--ink-2)}
+.seg .cs em{color:var(--petrol);font-style:italic}
+.seg .nowtag{display:none;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dawn)}
+.seg.active .nowtag{display:block}
+@media (max-width:760px){.seg{grid-template-columns:1fr auto;gap:4px 12px}.seg .tm{grid-column:1}.seg .nm{grid-column:1}.seg .cs{grid-column:1/-1}.seg .listen{grid-row:1;grid-column:2}}
+
+.warn{background:var(--ember-soft);border-radius:var(--r-m);padding:16px 18px}
+.warn ul{margin:10px 0 0;padding-left:22px}
+.warn li{margin-bottom:6px;color:var(--ink-2)}
+.crit{background:var(--sage-soft);border-radius:var(--r-m);padding:16px 18px}
+:root[data-contrast="high"] .warn,:root[data-contrast="high"] .crit{border:2px solid #000}
+textarea#sNote{width:100%;min-height:140px;padding:13px;border:1.5px solid var(--line);border-radius:var(--r-m);background:var(--surface);resize:vertical;line-height:1.6}
+.donebox{display:flex;align-items:center;gap:12px;padding:14px 0;font-weight:700;min-height:44px}
+.donebox input{width:22px;height:22px;accent-color:var(--sage)}
+
+.sc{display:flex;flex-direction:column;gap:18px;max-width:580px;margin-top:12px}
+.sc .r label{display:flex;justify-content:space-between;font-weight:700;margin-bottom:6px;gap:10px}
+.sc .r .v{font-family:"IBM Plex Mono",monospace;color:var(--petrol);font-weight:600}
+.sc .ends{display:flex;justify-content:space-between;font-size:.78rem;color:var(--ink-3)}
+input[type=range]{width:100%;accent-color:var(--petrol);height:32px}
+.msg{font-size:.9rem;color:var(--sage);font-weight:700;margin-left:10px}
+
+.snav{display:flex;justify-content:space-between;gap:10px;margin-top:34px;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+
+/* ---------- panneau accessibilité ---------- */
+.dlg{border:0;padding:0;border-radius:var(--r-l);background:var(--surface);color:var(--ink);width:min(560px,calc(100vw - 32px));max-height:calc(100vh - 48px);box-shadow:0 30px 80px -20px rgba(0,0,0,.45)}
+.dlg::backdrop{background:rgba(8,20,22,.55)}
+.dlg-in{padding:22px;display:flex;flex-direction:column;gap:18px}
+.dlg-h{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.opt{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 14px;align-items:center;padding:12px 0;border-top:1px solid var(--line-soft)}
+.opt .d{font-size:.84rem;color:var(--ink-3);grid-column:1}
+.switch{appearance:none;width:52px;height:30px;border-radius:999px;background:var(--line);position:relative;border:0;grid-row:1/3;grid-column:2;cursor:pointer;transition:background .15s}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:left .15s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.switch:checked{background:var(--petrol)}
+.switch:checked::after{left:25px}
+:root[data-contrast="high"] .switch{border:2px solid #000}
+.seg-ctl{display:inline-flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden;grid-row:1/3;grid-column:2}
+.seg-ctl button{background:var(--surface);border:0;padding:8px 14px;min-height:40px;font-weight:700}
+.seg-ctl button[aria-pressed="true"]{background:var(--petrol);color:var(--btn-ink)}
+.opt select{grid-row:1/3;grid-column:2;max-width:220px;padding:8px;min-height:40px;border:1.5px solid var(--line);border-radius:var(--r-s);background:var(--surface)}
+.opt input[type=range]{grid-column:1/-1}
+kbd{font-family:"IBM Plex Mono",monospace;font-size:.8rem;background:var(--surface-2);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px}
+dl.keys{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;margin:0;font-size:.92rem}
+dl.keys dt{white-space:nowrap}
+dl.keys dd{margin:0;color:var(--ink-2)}
+.note{background:var(--petrol-soft);border-radius:var(--r-s);padding:12px 14px;font-size:.88rem;color:var(--ink-2)}
+
+/* ---------- lecteur audio ---------- */
+.player{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 14px);z-index:60;width:min(640px,calc(100vw - 24px));background:var(--panel-bg);color:var(--panel-ink);border-radius:var(--r-l);padding:12px 14px;display:flex;align-items:center;gap:12px;box-shadow:0 20px 50px -12px rgba(0,0,0,.5)}
+.player .wave{display:flex;gap:3px;align-items:flex-end;height:22px;flex:none}
+.player .wave i{width:4px;border-radius:2px;background:var(--dawn);height:30%;animation:w 1s ease-in-out infinite}
+.player .wave i:nth-child(2){animation-delay:.15s}.player .wave i:nth-child(3){animation-delay:.3s}.player .wave i:nth-child(4){animation-delay:.45s}
+.player.paused .wave i{animation-play-state:paused}
+@keyframes w{0%,100%{height:25%}50%{height:100%}}
+.player .info{flex:1;min-width:0}
+.player .info b{display:block;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.player .info span{font-size:.78rem;color:var(--panel-dim)}
+.player .pb{width:44px;height:44px;border-radius:50%;border:0;background:var(--panel-btn);color:inherit;display:grid;place-items:center;flex:none}
+.player .pb:hover{background:var(--panel-btn-h)}
+.player .pb svg{width:20px;height:20px}
+.player .pb.main{background:var(--dawn);color:#1B1206}
+@media (max-width:460px){.player .pb.hide-s{display:none}}
+
+/* ---------- ajouts : sauvegarde, mode soutien, confirmation, impression ---------- */
+.btn.danger{background:var(--surface);color:var(--alert);border:1.5px solid var(--alert)}
+.btn.danger:hover{background:var(--alert-soft);filter:none}
+.backup{margin-top:18px;padding-top:16px;border-top:1px solid var(--line-soft)}
+.backup .stamp{font-size:.84rem;color:var(--ink-3)}
+.backup .stamp.old{color:var(--alert);font-weight:700}
+.msg.bad{color:var(--alert)}
+.scard .when{font-weight:500}
+.alertchip{display:inline-flex;align-items:center;gap:5px;background:var(--alert-soft);color:var(--alert);border-radius:999px;padding:2px 9px;font-size:.74rem;font-weight:700;letter-spacing:.02em}
+:root[data-contrast="high"] .alertchip{border:1.5px solid #000}
+.ref{font-size:.82rem;color:var(--ink-3);font-weight:500;font-family:"IBM Plex Mono",monospace}
+.support{background:var(--alert-soft);border:1.5px solid var(--alert);border-radius:var(--r-m);padding:16px 18px;margin-top:22px}
+.support h2{color:var(--alert);margin-bottom:8px}
+.support ol{margin:8px 0 0;padding-left:22px;color:var(--ink-2)}
+.support li{margin-bottom:6px}
+.support .tel{font-family:"IBM Plex Mono",monospace;font-weight:600;color:var(--alert)}
+:root[data-contrast="high"] .support{border-width:3px}
+.support-on .support-hide{display:none!important}
+.sact{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+dialog.ask{border:0;padding:0;border-radius:var(--r-l);background:var(--surface);color:var(--ink);width:min(440px,calc(100vw - 32px));box-shadow:0 30px 80px -20px rgba(0,0,0,.45)}
+dialog.ask::backdrop{background:rgba(8,20,22,.55)}
+dialog.ask .dlg-in{gap:14px}
+@media print{
+  :root{font-size:100%}
+  body{background:#fff;color:#000}
+  .top,.skip,.safety,.runbar,.player,.listen,.snav,.shead>.btn,.sact,.donebox,#a11yDlg,dialog,.no-print,#saveScales,#scaleMsg{display:none!important}
+  .wrap{padding:0;max-width:none}
+  .block{margin-top:16px;break-inside:avoid}
+  ol.seq,.warn,.crit,.chip{border:1px solid #888;background:#fff!important}
+  .seg{grid-template-columns:70px 150px 1fr;break-inside:avoid}
+  textarea#sNote{border:1px solid #888;min-height:90px}
+  a{color:#000}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+</head>
+<body>
+<a class="skip" href="#main">Aller au contenu</a>
+
+<header class="top" id="top">
+ <div class="top-in">
+  <button class="brand" id="brand" aria-label="Phénix Ado, retour à l’accueil">
+    <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="var(--petrol-soft)"/><path d="M20 32c-5.2 0-9-3.6-9-8.3 0-3.6 2.2-6 4.3-8.5C17.6 12.6 19.4 10.4 20 7c.6 3.4 2.4 5.6 4.7 8.2 2.1 2.5 4.3 4.9 4.3 8.5 0 4.7-3.8 8.3-9 8.3Z" fill="var(--ember)"/><path d="M20 27.5c-2.3 0-4-1.6-4-3.7 0-2.4 2.3-3.6 4-7 1.7 3.4 4 4.6 4 7 0 2.1-1.7 3.7-4 3.7Z" fill="var(--dawn)"/></svg>
+    <span><b>Phénix Ado</b><span>Console d’animation</span></span>
+  </button>
+  <div class="sp"></div>
+  <nav class="tools" aria-label="Outils">
+    <label class="sr" for="pick">Jeune accompagné</label>
+    <select class="pick" id="pick"></select>
+    <button class="audio-toggle" id="audioToggle" aria-pressed="false">
+      <span class="dot" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg></span>
+      <span id="audioLabel">Mode audio</span>
+    </button>
+    <button class="btn ghost sm" id="a11yBtn" aria-haspopup="dialog">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="4.5" r="2"/><path d="M4 8.5l8 1.5 8-1.5M12 10v5m0 0-3.5 6.5M12 15l3.5 6.5"/></svg>
+      Accessibilité
+    </button>
+  </nav>
+ </div>
+</header>
+
+<div class="sr" aria-live="polite" aria-atomic="true" id="live"></div>
+<div class="sr" aria-live="assertive" aria-atomic="true" id="liveA"></div>
+
+<main class="wrap" id="main">
+  <aside class="safety" aria-labelledby="safetyT">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 3 7v5c0 5 3.8 8.5 9 9.5 5.2-1 9-4.5 9-9.5V7l-9-4Z"/><path d="M12 8v5M12 16.5v.01"/></svg>
+    <div>
+      <b id="safetyT">Cadre de sécurité, non négociable.</b> Le coaching ne remplace jamais un suivi psychologique ou médical. Signes de trauma, de dépression, d’anxiété importante ou d’idées suicidaires : informer les parents et orienter immédiatement vers un professionnel de santé (médecin, psychologue, <span class="tel">3114</span>, 24 h/24). La séance bascule alors en mode soutien, sans exercice. Jamais de reviviscence détaillée des scènes de harcèlement.
+      <div style="margin-top:8px"><button class="listen" data-say="safety"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Écouter le cadre</button></div>
+    </div>
+  </aside>
+
+  <!-- ============ ACCUEIL ============ -->
+  <section class="view" id="v-home" aria-labelledby="hTitle">
+    <div class="hero">
+      <div>
+        <p class="eyebrow">Méthode Houée · Parcours ado</p>
+        <h1 id="hTitle" tabindex="-1" style="margin-top:6px">Parcours en cours</h1>
+        <p class="lead">Dix séances de 60 minutes, quatre étapes. Les données restent sur cet appareil ; aucun nom complet n’est demandé.</p>
+        <div class="row" style="margin-top:14px"><button class="listen" data-say="home"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Écouter l’accueil</button></div>
+      </div>
+      <ol class="steps4" aria-label="Les quatre étapes du parcours">
+        <li style="--es:var(--e1s);--ec:var(--e1)"><b>S1–S3</b>Sécuriser</li>
+        <li style="--es:var(--e2s);--ec:var(--e2)"><b>S4–S5</b>Reconstruire</li>
+        <li style="--es:var(--e3s);--ec:var(--e3)"><b>S6–S7</b>S’affirmer</li>
+        <li style="--es:var(--e4s);--ec:var(--e4)"><b>S8–S10</b>Se projeter</li>
+      </ol>
+    </div>
+    <h2 class="sr">Jeunes accompagnés</h2>
+    <ul class="grid" id="youths"></ul>
+
+    <section class="newcard" aria-labelledby="newT">
+      <h2 id="newT">Nouveau parcours</h2>
+      <form id="newForm" novalidate>
+        <div class="fields">
+          <div class="field"><label for="nyName">Prénom ou initiales</label><input id="nyName" type="text" autocomplete="off" placeholder="Ex. Léa M." aria-describedby="nyErr"><span class="err" id="nyErr"></span></div>
+          <div class="field"><label for="nyAge">Âge</label><input id="nyAge" type="number" min="10" max="18" inputmode="numeric" placeholder="14"></div>
+          <div class="field"><label for="nyDate">Date de la séance 1</label><input id="nyDate" type="date"></div>
+        </div>
+        <button class="btn" type="submit">Créer le parcours</button>
+      </form>
+      <p class="hint" style="margin-top:14px">RGPD : pas de nom complet ni de données de santé. Tout reste dans ce navigateur ; pensez à copier une sauvegarde régulièrement.</p>
+      <div class="backup">
+        <h3 style="margin-bottom:6px">Sauvegarde</h3>
+        <p class="stamp" id="backupStamp" role="status"></p>
+        <div class="row" style="margin-top:10px">
+          <button class="btn sm" id="downloadBtn">Télécharger la sauvegarde (.json)</button>
+          <button class="btn ghost sm" id="exportBtn">Copier (JSON)</button>
+          <button class="btn ghost sm" id="importBtn">Restaurer un fichier…</button>
+          <input type="file" id="importFile" accept="application/json,.json" hidden>
+        </div>
+        <p class="msg" id="backupMsg" role="status" style="margin:8px 0 0"></p>
+      </div>
+      <label for="exportBox" class="sr">Sauvegarde des dossiers</label>
+      <textarea class="exportbox" id="exportBox" readonly hidden></textarea>
+    </section>
+  </section>
+
+  <!-- ============ PARCOURS ============ -->
+  <section class="view" id="v-youth" aria-labelledby="yTitle" hidden>
+    <div class="yhead">
+      <div class="ring" id="yRing" aria-hidden="true"></div>
+      <div>
+        <p class="eyebrow">Parcours</p>
+        <h1 id="yTitle" tabindex="-1">—</h1>
+        <p style="color:var(--ink-2);margin-top:4px" id="ySub"></p>
+      </div>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <button class="listen" data-say="youth"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Écouter le parcours</button>
+      <button class="btn sm" id="goNext">Ouvrir la prochaine séance</button>
+      <button class="btn danger sm" id="delYouth">Supprimer ce parcours</button>
+    </div>
+    <h2 class="sr">Les dix séances</h2>
+    <ol class="slist" id="sessions"></ol>
+
+    <section class="scales-card" aria-labelledby="scT">
+      <div class="tbl-wrap">
+        <table class="cmp" id="cmp">
+          <caption><span class="eyebrow" id="scT">Échelles 0 à 10 : ligne de base (S1) et re-mesure (S9)</span></caption>
+        </table>
+      </div>
+      <p class="hint" style="margin-top:14px">Les échelles se saisissent en séance 1 puis en séance 9. L’écart, pas la valeur absolue, est l’indicateur. Pour le stress, une baisse est un progrès.</p>
+    </section>
+  </section>
+
+  <!-- ============ SÉANCE ============ -->
+  <section class="view" id="v-session" aria-labelledby="sTitle" hidden>
+    <div class="runbar" role="region" aria-label="Minuteur de séance">
+      <div class="runbar-in">
+        <div>
+          <div class="lab" id="clockLab">Temps de séance</div>
+          <div class="clock mono" id="clock" role="timer" aria-labelledby="clockLab">00:00</div>
+        </div>
+        <div class="now" id="nowSeg">Minuteur à l’arrêt.<small>La trame s’éclaire au fil des 60 minutes.</small></div>
+        <div class="row">
+          <button class="tbtn primary" id="tStart"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span>Démarrer</span></button>
+          <button class="tbtn" id="tReset">Remettre à zéro</button>
+        </div>
+      </div>
+      <div class="track" id="track" aria-hidden="true"></div>
+    </div>
+
+    <div class="shead">
+      <div>
+        <p class="eyebrow mono" id="sMeta"></p>
+        <h1 id="sTitle" tabindex="-1" style="margin-top:6px"></h1>
+      </div>
+      <div class="sact">
+        <button class="btn" data-say="session"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Écouter toute la séance</button>
+        <button class="btn ghost" id="printBtn">Imprimer la fiche</button>
+        <button class="btn danger" id="supportBtn" aria-pressed="false">Signal d’alerte : mode soutien</button>
+      </div>
+    </div>
+
+    <section class="support" id="supportBox" aria-labelledby="supT" hidden>
+      <h2 id="supT">Mode soutien activé pour cette séance</h2>
+      <p style="color:var(--ink-2)">Aucun exercice aujourd’hui : présence, écoute, sécurité. Ce que prévoit le cadre :</p>
+      <ol>
+        <li>Accueillir sans interroger sur les scènes vécues ; valider l’émotion, rester dans le présent.</li>
+        <li>Informer les parents.</li>
+        <li>Orienter sans attendre vers un professionnel de santé (médecin, psychologue) ; en cas d’idées suicidaires, <span class="tel">3114</span>, 24 h/24.</li>
+        <li>Noter factuellement ci-dessous ce qui a été observé et décidé, sans diagnostic.</li>
+      </ol>
+    </section>
+
+    <section class="block support-hide" aria-labelledby="b1"><div class="bhead"><h2 id="b1">Objectif</h2><button class="listen" data-say="obj" aria-label="Écouter l’objectif"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Écouter</button></div><p style="color:var(--ink-2);max-width:70ch;font-size:1.05rem" id="sObj"></p></section>
+    <section class="block support-hide" aria-labelledby="b2"><div class="bhead"><h2 id="b2">Matériel à préparer</h2><button class="listen" data-say="mat" aria-label="Écouter le matériel"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Écouter</button></div><ul class="chips" id="sMat"></ul></section>
+    <section class="block support-hide" aria-labelledby="b3"><div class="bhead"><h2 id="b3">Déroulé minuté</h2><button class="listen" data-say="seq" aria-label="Écouter tout le déroulé"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Écouter le déroulé</button></div><ol class="seq" id="sSeq"></ol></section>
+
+    <section class="block support-hide" id="scalesBlock" aria-labelledby="scalesTitle" hidden>
+      <h2 id="scalesTitle">Échelles 0 à 10</h2>
+      <div class="sc" id="sScales"></div>
+      <div class="row" style="margin-top:16px"><button class="btn sm" id="saveScales">Enregistrer les échelles</button><span class="msg" id="scaleMsg" role="status"></span></div>
+    </section>
+
+    <section class="block support-hide" aria-labelledby="b4"><div class="bhead"><h2 id="b4">Travail inter-séances</h2><button class="listen" data-say="inter" aria-label="Écouter le travail inter-séances"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Écouter</button></div><div class="crit" id="sInter"></div></section>
+    <section class="block" aria-labelledby="b5"><div class="warn"><div class="bhead" style="margin:0"><h2 id="b5" style="color:var(--ember)">Points de vigilance</h2><button class="listen" data-say="warn" aria-label="Écouter les points de vigilance"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Écouter</button></div><ul id="sWarn"></ul></div></section>
+    <section class="block support-hide" aria-labelledby="b6"><div class="bhead"><h2 id="b6">Critère de réussite</h2><button class="listen" data-say="crit" aria-label="Écouter le critère de réussite"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Écouter</button></div><div class="crit" id="sCrit"></div></section>
+
+    <section class="block" aria-labelledby="b7">
+      <h2 id="b7">Notes de séance</h2>
+      <p class="hint" id="noteHint" style="margin:4px 0 10px">Factuel et professionnel : ce qui a été fait, observé, reporté. Pas de diagnostic. Enregistrement automatique.</p>
+      <label for="sNote" class="sr">Notes de séance</label>
+      <textarea id="sNote" aria-describedby="noteHint" placeholder="Observations, ajustements, décisions…"></textarea>
+      <div class="row" style="justify-content:space-between">
+        <label class="donebox"><input type="checkbox" id="sDone">Séance réalisée</label>
+        <button class="listen" data-say="note"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Relire mes notes</button>
+      </div>
+    </section>
+
+    <nav class="snav" aria-label="Navigation entre séances">
+      <button class="btn ghost sm" id="sBack">Retour au parcours</button>
+      <div class="row">
+        <button class="btn ghost sm" id="sPrev">←</button>
+        <button class="btn sm" id="sNext">→</button>
+      </div>
+    </nav>
+  </section>
+</main>
+
+<!-- ============ PANNEAU ACCESSIBILITÉ ============ -->
+<dialog class="dlg" id="a11yDlg" aria-labelledby="dlgT">
+ <div class="dlg-in">
+  <div class="dlg-h"><h2 id="dlgT">Accessibilité et audio</h2><button class="btn ghost sm" id="dlgClose">Fermer</button></div>
+  <p class="note" id="ttsNote">Si vous utilisez déjà un lecteur d’écran (NVDA, JAWS, VoiceOver, TalkBack), toute la page lui est lisible : laissez les annonces vocales désactivées pour éviter deux voix en même temps. Le mode audio sert surtout aux personnes malvoyantes sans lecteur d’écran.</p>
+  <div>
+   <div class="opt"><label for="oAudio"><b>Annonces vocales</b></label><span class="d">La page parle à chaque changement d’écran et quand vous déplacez un curseur.</span><input type="checkbox" class="switch" id="oAudio"></div>
+   <div class="opt"><label for="oFocus"><b>Lire ce qui reçoit le focus</b></label><span class="d">Avec la touche Tab, chaque bouton ou carte est lu à voix haute.</span><input type="checkbox" class="switch" id="oFocus"></div>
+   <div class="opt"><label for="oTimer"><b>Minuteur parlant</b></label><span class="d">Carillon et annonce à chaque changement d’étape, rappel 2 minutes avant.</span><input type="checkbox" class="switch" id="oTimer"></div>
+   <div class="opt"><label for="oChime"><b>Sons de repère</b></label><span class="d">Petits sons discrets pour confirmer une action.</span><input type="checkbox" class="switch" id="oChime"></div>
+   <div class="opt"><label for="oVoice"><b>Voix</b></label><span class="d" id="voiceD">Voix française de l’appareil.</span><select id="oVoice"></select></div>
+   <div class="opt"><label for="oRate"><b>Vitesse de lecture</b> <span class="mono" id="rateV">1,0</span></label><input type="range" id="oRate" min="0.6" max="1.6" step="0.1" value="1"></div>
+   <div class="opt"><span><b>Taille du texte</b></span><span class="d">Agrandit toute la page.</span><div class="seg-ctl" role="group" aria-label="Taille du texte"><button data-size="m" aria-pressed="true">A</button><button data-size="l" aria-pressed="false" style="font-size:1.1em">A</button><button data-size="xl" aria-pressed="false" style="font-size:1.25em">A</button></div></div>
+   <div class="opt"><label for="oContrast"><b>Contraste renforcé</b></label><span class="d">Noir sur blanc, contours épais, focus jaune.</span><input type="checkbox" class="switch" id="oContrast"></div>
+  </div>
+  <div class="row"><button class="btn sm" id="testVoice">Tester la voix</button></div>
+  <div>
+   <h3 style="margin-bottom:10px">Raccourcis clavier</h3>
+   <dl class="keys">
+     <dt><kbd>Alt</kbd>+<kbd>Maj</kbd>+<kbd>A</kbd></dt><dd>Activer ou couper les annonces vocales</dd>
+     <dt><kbd>Alt</kbd>+<kbd>Maj</kbd>+<kbd>L</kbd></dt><dd>Lire l’écran en cours</dd>
+     <dt><kbd>Alt</kbd>+<kbd>Maj</kbd>+<kbd>O</kbd></dt><dd>Où suis-je ? (écran, séance, minuteur)</dd>
+     <dt><kbd>Alt</kbd>+<kbd>Maj</kbd>+<kbd>M</kbd></dt><dd>Démarrer ou mettre en pause le minuteur</dd>
+     <dt><kbd>Alt</kbd>+<kbd>Maj</kbd>+<kbd>N</kbd> / <kbd>P</kbd></dt><dd>Séance suivante / précédente</dd>
+     <dt><kbd>Alt</kbd>+<kbd>Maj</kbd>+<kbd>H</kbd></dt><dd>Retour à l’accueil</dd>
+     <dt><kbd>Échap</kbd></dt><dd>Arrêter la lecture</dd>
+     <dt><kbd>Alt</kbd>+<kbd>Maj</kbd>+<kbd>K</kbd></dt><dd>Ouvrir ce panneau</dd>
+   </dl>
+  </div>
+ </div>
+</dialog>
+
+<!-- ============ CONFIRMATION ============ -->
+<dialog class="ask" id="askDlg" aria-labelledby="askT" aria-describedby="askD">
+ <div class="dlg-in">
+  <h2 id="askT">Confirmer</h2>
+  <p id="askD" style="color:var(--ink-2)"></p>
+  <div class="row" style="justify-content:flex-end">
+   <button class="btn ghost sm" id="askNo" type="button">Annuler</button>
+   <button class="btn danger sm" id="askYes" type="button">Confirmer</button>
+  </div>
+ </div>
+</dialog>
+
+<!-- ============ LECTEUR ============ -->
+<div class="player" id="player" role="region" aria-label="Lecture audio" hidden>
+  <div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="info"><b id="plLabel">Lecture</b><span id="plProg"></span></div>
+  <button class="pb hide-s" id="plPrev" aria-label="Phrase précédente"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 6h2v12H6zM9.5 12 18 18V6z"/></svg></button>
+  <button class="pb main" id="plPause" aria-label="Pause"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" id="plIcon"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button>
+  <button class="pb hide-s" id="plNext" aria-label="Phrase suivante"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z"/></svg></button>
+  <button class="pb" id="plStop" aria-label="Arrêter la lecture"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 6h12v12H6z"/></svg></button>
+</div>
+
+<script>
+"use strict";
+const ETAPES = {1:"Sécuriser",2:"Reconstruire",3:"S’affirmer",4:"Se projeter"};
+
+const SESSIONS = [
+{n:1,e:1,t:"Sécurité, alliance & contrat de coaching",
+ obj:"Créer un espace de confiance, clarifier le cadre et commencer à redonner du contrôle au jeune.",
+ mat:["Feuille « échelles 0–10 » (5 lignes)","Contrat de coaching en 2 exemplaires","Feuilles blanches, feutres"],
+ seq:[
+  [0,5,"Accueil","Accueil chaleureux, installation confortable. Se présenter simplement. <em>« Comment tu te sens en arrivant, sur une échelle de 0 à 10 ? »</em>"],
+  [5,15,"Cadre & contrat","Poser les règles une à une et vérifier la compréhension : confidentialité (et ses limites légales), droit de ne pas répondre, droit de faire une pause, respect absolu. Annoncer clairement : on travaillera sur tes ressources et ton présent, jamais sur le récit détaillé de ce que tu as subi."],
+  [15,35,"Cadrage positif + ligne de base","<em>« Qu’est-ce que tu veux obtenir grâce à ces séances ? »</em> <em>« Qu’est-ce qui serait différent dans ta vie si tu allais mieux ? »</em> <em>« Comment sauras-tu que ça va mieux ? »</em> Puis remplir ensemble la ligne de base des 5 échelles. Noter sans commenter, valoriser l’honnêteté."],
+  [35,50,"Cercle de sécurité","Proposer (sans imposer) de fermer les yeux. Guider vers un lieu imaginaire ou réel où le jeune se sent protégé. <em>« À quoi ressemble cet endroit ? Quels sons y entends-tu ? Quelles sensations de sécurité sont présentes ? »</em> Laisser des silences. Ancrer : « Ce lieu t’appartient, tu peux y revenir quand tu veux. »"],
+  [50,60,"Clôture & engagement","Résumer ce qui a été posé. Donner la mission inter-séances. Vérifier l’état émotionnel de sortie (échelle rapide)."]
+ ],
+ inter:"Créer une « fiche ressources » avec 5 choses qui apaisent ; observer chaque jour un moment où ça va un peu mieux.",
+ warn:["Ne jamais demander le récit du harcèlement — si le jeune l’aborde spontanément, accueillir brièvement, valider l’émotion, puis revenir au présent.","Repérer dès cette séance tout signe d’alerte (idées noires, trauma, anxiété majeure) → prévenir les parents et orienter vers un professionnel de santé.","Adapter le vocabulaire à l’âge ; obtenir un « oui » explicite du jeune sur le contrat."],
+ crit:"Le jeune repart avec un cadre clair, une première expérience de contrôle (il a pu choisir, refuser, doser) et un lieu ressource interne.",
+ scales:"base"},
+
+{n:2,e:1,t:"Reprendre contact avec ses ressources",
+ obj:"Identifier les forces, qualités et capacités déjà présentes chez l’adolescent.",
+ mat:["Fiche « inventaire des ressources » (4 colonnes)","Fiche ressources créée à la maison"],
+ seq:[
+  [0,5,"Accueil & météo","Météo émotionnelle + échelle rapide. Accueillir la fiche ressources sans jugement, même incomplète."],
+  [5,15,"Retour de semaine","<em>« Qu’est-ce qui a aidé un peu ? Qu’est-ce qui a été difficile ? Qu’as-tu remarqué sur toi ? »</em> Reformuler en soulignant chaque micro-réussite."],
+  [15,35,"Inventaire des ressources","Faire lister : 3 qualités personnelles, 3 compétences, 3 personnes soutenantes, 3 réussites vécues. Si blocage (« je n’ai aucune qualité ») : passer par le regard des autres — <em>« Qu’est-ce que ton meilleur ami dirait de toi ? »</em>"],
+  [35,50,"Souvenir ressource + ancrage","Choisir un souvenir positif ou neutre, pas forcément intense. <em>« Reviens à ce moment. Que vois-tu ? Qu’entends-tu ? Que ressens-tu dans ton corps ? »</em> Au pic de la sensation agréable, installer le geste d’ancrage choisi par le jeune (pouce-index, main sur le cœur, poing doux). Répéter 3 fois. Tester à froid."],
+  [50,60,"Clôture & engagement","Faire reformuler par le jeune comment utiliser l’ancrage. Donner la mission."]
+ ],
+ inter:"Utiliser l’ancrage 1 fois par jour ; noter quand et avec quel effet.",
+ warn:["Choisir un souvenir sans lien avec le harcèlement.","Si aucune sensation positive ne vient : ne pas forcer, revenir au cercle de sécurité de la S1.","L’ancrage doit être discret, utilisable en classe sans se faire remarquer."],
+ crit:"Le jeune dispose d’un premier outil autonome de régulation et d’une liste tangible de ses forces."},
+
+{n:3,e:2,t:"Estime de soi & identité positive",
+ obj:"Distinguer le jeune de ce qu’il a subi et renforcer une identité personnelle choisie.",
+ mat:["Modèle « carte d’identité positive »","Miroir (ou caméra du téléphone)"],
+ seq:[
+  [0,5,"Accueil & météo","Météo émotionnelle + retour d’ancrage (fréquence, effets)."],
+  [5,15,"Ouverture identité","<em>« Qu’est-ce que tu veux que les autres voient chez toi ? »</em> <em>« Qui es-tu, en dehors de ce que tu as vécu ? »</em>"],
+  [15,30,"Métamodèle simplifié","Repérer les généralisations : « tout le monde se moque de moi », « je suis nul », « je n’ai aucune valeur ». <em>« Toujours ? Avec tout le monde ? »</em> <em>« Quelle preuve as-tu du contraire ? »</em> <em>« Y a-t-il des exceptions ? »</em> Noter chaque exception trouvée : ce sont les fissures dans la croyance."],
+  [30,45,"Carte d’identité positive","Remplir ensemble : mes qualités, ce que j’aime, ce qui compte pour moi, ce que j’apprends, ce que je veux devenir. Le jeune choisit la forme (dessin, collage, liste) — c’est SA carte."],
+  [45,55,"Exercice miroir","Faire dire à voix haute 3 phrases réalistes : « Je suis en train de reconstruire ma confiance », « J’ai le droit d’exister et de prendre ma place », « Ce que j’ai vécu ne définit pas toute mon identité ». Si le miroir est trop difficile : dire les phrases au coach d’abord."],
+  [55,60,"Clôture","Mission inter-séances + échelle de sortie."]
+ ],
+ inter:"Compléter la carte d’identité positive ; demander à une personne de confiance une qualité qu’elle voit chez lui.",
+ warn:["Les affirmations doivent rester crédibles pour le jeune (« je suis en train de… » plutôt que des absolus).","Ne jamais débattre frontalement d’une croyance : questionner, pas contredire.","Si des larmes viennent : accueillir, respirer ensemble, proposer une pause."],
+ crit:"Le jeune formule au moins une exception à sa croyance négative et repart avec une carte d’identité qui lui ressemble."},
+
+{n:4,e:2,t:"Gérer les émotions & le stress",
+ obj:"Apprendre à repérer, nommer et réguler les émotions au quotidien.",
+ mat:["Roue ou liste des émotions","Modèle « plan anti-débordement »"],
+ seq:[
+  [0,5,"Accueil & météo","Météo + retour sur la qualité recueillie auprès du proche (valoriser)."],
+  [5,15,"Météo intérieure approfondie","Identifier : émotion principale, intensité 0–10, déclencheurs, signes dans le corps. <em>« Où est-ce que ça se passe dans ton corps quand le stress monte ? »</em>"],
+  [15,30,"Dissociation douce","Choisir une situation récente LÉGÈREMENT stressante (jamais le harcèlement). Guider : « Imagine cette scène sur un écran, comme un film. Rends l’image plus petite… éloigne l’écran… respire calmement. » <em>« Qu’est-ce qui change dans ce que tu ressens quand l’image s’éloigne ? »</em>"],
+  [30,40,"Respiration 4/6 + ancrage","Inspirer 4 temps, expirer 6 temps, 5 cycles. Ajouter le geste d’ancrage de la S2. Faire noter l’intensité avant/après."],
+  [40,55,"Plan anti-débordement","Construire la boîte à outils personnelle : respirer, s’éloigner, appeler quelqu’un, musique, marcher, écrire, geste-ancrage. Hiérarchiser : lequel en premier ? Lequel si ça ne suffit pas ? Qui appeler en dernier recours ?"],
+  [55,60,"Clôture","Mission + échelle de sortie."]
+ ],
+ inter:"Tester 2 outils de régulation dans la semaine et noter lequel fonctionne le mieux.",
+ warn:["La dissociation se pratique uniquement sur une situation légère — jamais sur un souvenir traumatique.","Si l’intensité monte au lieu de descendre : stopper, revenir au lieu de sécurité, respirer.","Le plan anti-débordement doit inclure au moins un adulte joignable."],
+ crit:"Le jeune sait faire baisser une intensité émotionnelle de 2 points minimum avec au moins un outil."},
+
+{n:5,e:2,t:"Déconstruire les croyances limitantes",
+ obj:"Transformer les pensées automatiques négatives et retrouver une liberté de choix.",
+ mat:["Tableau 3 colonnes : pensée / recadrage / preuve","Fiche « formule ressource »"],
+ seq:[
+  [0,5,"Accueil & météo","Météo + retour sur les 2 outils testés (lequel garder ?)."],
+  [5,15,"Repérage des pensées automatiques","Lister sans filtrer : « je ne vais pas y arriver », « les autres sont tous contre moi », « si je parle, ça ira pire ». Normaliser : ces pensées sont des réflexes appris, pas des vérités."],
+  [15,30,"Recadrage","Pour chaque pensée : <em>« Quelle serait une lecture plus juste ? Quelle preuve du contraire ? Quel angle utile ? »</em> Exemple à proposer : « Je suis faible » → « J’ai survécu à quelque chose de difficile, j’apprends à me protéger. »"],
+  [30,45,"Sous-modalités","Sur une image mentale négative LÉGÈRE : réduire la taille, baisser la luminosité, éloigner, mettre un cadre. Comparer l’intensité avant/après (0–10). Verbaliser : c’est LUI qui a changé l’image → il a du pouvoir sur son monde intérieur."],
+  [45,55,"Formule ressource","Créer UNE phrase courte, crédible, utile : « Je progresse pas à pas », « Je peux demander de l’aide », « Je ne suis pas seul ». L’associer au geste d’ancrage."],
+  [55,60,"Clôture","Mission + échelle de sortie."]
+ ],
+ inter:"Noter 3 pensées négatives de la semaine et leur recadrage.",
+ warn:["Le recadrage vient du jeune, jamais plaqué par le coach — proposer seulement si blocage complet.","Ne pas viser la pensée positive forcée : viser la pensée juste et utile.","Vérifier que la formule ressource est dans les mots du jeune, pas dans ceux d’un adulte."],
+ crit:"Le jeune produit seul au moins un recadrage et adopte une formule ressource qu’il peut réciter de mémoire."},
+
+{n:6,e:3,t:"Communication, affirmation & limites",
+ obj:"Savoir se positionner sans agressivité ni effacement.",
+ mat:["3 chaises ou 3 emplacements marqués au sol","Fiche « script d’assertivité »"],
+ seq:[
+  [0,5,"Accueil & météo","Météo + retour sur les recadrages notés."],
+  [5,15,"Situations difficiles","Lister les situations concrètes : moqueries, provocations, invitations non souhaitées, pression des pairs. Choisir ensemble UNE situation légère à travailler."],
+  [15,30,"Positions perceptuelles","Position 1 (moi) : <em>« Qu’est-ce que tu vois, ressens, veux ? »</em> Position 2 (l’autre) : <em>« Qu’est-ce qu’il cherche, lui ? Qu’est-ce qu’il voit ? »</em> Position 3 (observateur) : <em>« Que dirait quelqu’un de neutre qui regarde la scène ? »</em> Débriefer : qu’est-ce qui change dans la compréhension ?"],
+  [30,40,"Script d’assertivité","Construire le script : « Quand tu fais ça… », « Je me sens… », « Je te demande… », « Si ça continue, je… ». L’écrire dans les mots du jeune."],
+  [40,55,"Jeux de rôle","Entraîner tour à tour : dire non, demander de l’aide, quitter une situation, répondre calmement à une provocation. Le coach joue l’autre avec une intensité TRÈS progressive. Débriefer après chaque essai : <em>« Qu’est-ce que tu as bien fait là ? »</em>"],
+  [55,60,"Clôture","Mission + échelle de sortie."]
+ ],
+ inter:"Choisir une phrase limite et la pratiquer devant le miroir.",
+ warn:["Jamais de jeu de rôle rejouant une scène réelle de harcèlement — uniquement des situations génériques ou futures.","Monter l’intensité seulement avec l’accord explicite du jeune ; s’arrêter au premier signe de débordement.","Rappeler que demander de l’aide à un adulte est une compétence, pas une faiblesse."],
+ crit:"Le jeune formule un « non » clair et un script de limite complet, testés en jeu de rôle sans débordement émotionnel."},
+
+{n:7,e:3,t:"Reprendre confiance dans le corps",
+ obj:"Réhabiter le corps sereinement et retrouver une posture de puissance calme.",
+ mat:["Espace pour se lever et marcher","Musique douce (optionnel)"],
+ seq:[
+  [0,5,"Accueil & météo","Météo + retour sur la phrase limite pratiquée."],
+  [5,15,"Check-in corporel","Debout ou assis : <em>« Où sont les tensions ? Où est le relâchement ? Quel est ton niveau d’énergie ? »</em> Balayage guidé des pieds à la tête."],
+  [15,30,"Physiologie de ressource","Expérimenter la posture : pieds stables, épaules ouvertes, respiration ample, regard horizontal. Comparer : 30 secondes en posture repliée, puis 30 secondes en posture ressource. <em>« Qu’est-ce qui change à l’intérieur quand ton corps change ? »</em>"],
+  [30,40,"Ancrage de posture","Associer la posture à un mot-clé choisi : « calme », « force », « présence ». Répéter : mot + posture + respiration, 3 fois."],
+  [40,55,"Mouvement & recentrage","Marche consciente dans la pièce (lenteur, appuis, respiration). Étirements doux, ancrage au sol, relâchement des mâchoires et des épaules."],
+  [55,60,"Clôture","Mission + échelle de sortie."]
+ ],
+ inter:"Pratiquer la posture ressource 2 minutes par jour (par exemple avant d’entrer au collège ou au lycée).",
+ warn:["Certains jeunes harcelés ont un rapport douloureux au corps et au regard : proposer, ne jamais imposer le contact visuel ou une posture.","Travailler à côté du jeune plutôt qu’en face si cela le sécurise.","Aucun contact physique de la part du coach."],
+ crit:"Le jeune identifie la différence d’état interne entre posture repliée et posture ressource, et sait déclencher la seconde avec son mot-clé."},
+
+{n:8,e:4,t:"Vision positive & futur désirable",
+ obj:"Aider l’adolescent à se projeter au-delà du harcèlement.",
+ mat:["Grande feuille pour la ligne du temps","Feutres de couleur"],
+ seq:[
+  [0,5,"Accueil & météo","Météo + retour sur la posture quotidienne."],
+  [5,15,"Explorer les envies","<em>« Qu’aimerais-tu vivre davantage ? »</em> <em>« Comment veux-tu te sentir dans 6 mois ? »</em> <em>« De quoi serais-tu fier ? »</em>"],
+  [15,30,"Projection dans le futur","Guider vers une version de soi dans 6 mois ou 1 an : plus sereine, plus confiante, mieux entourée. <em>« Que fait cette version de toi ? Que pense-t-elle ? Qu’a-t-elle mis en place ? »</em> <em>« Quel conseil te donnerait-elle, à toi, aujourd’hui ? »</em>"],
+  [30,45,"Ligne du temps","Dessiner : aujourd’hui → prochaines semaines → petites étapes → objectif. Chaque étape doit être petite, concrète, datable."],
+  [45,55,"Micro-actions","Choisir 3 actions réalistes : parler à un adulte, reprendre une activité, rejoindre un groupe, limiter un contact toxique, mieux dormir. Pour chacune : <em>« Quand ? Où ? Avec qui ? Qu’est-ce qui pourrait t’en empêcher, et que feras-tu alors ? »</em>"],
+  [55,60,"Clôture","Mission + échelle de sortie."]
+ ],
+ inter:"Réaliser une première micro-action avant la prochaine séance.",
+ warn:["Si la projection reste sombre : réduire l’horizon (1 mois, 1 semaine) et s’appuyer sur les réussites déjà vécues depuis la S1.","Les micro-actions appartiennent au jeune : pas d’objectifs d’adulte déguisés.","Vérifier la faisabilité réelle (moyens, accord parental si nécessaire)."],
+ crit:"Le jeune repart avec une image de futur désirable formulée par lui et 3 micro-actions planifiées."},
+
+{n:9,e:4,t:"Consolidation & autonomie",
+ obj:"Renforcer les acquis et préparer la suite sans dépendance au coach.",
+ mat:["Ligne de base de la S1 (à ressortir)","Modèle « plan de prévention des rechutes »"],
+ seq:[
+  [0,5,"Accueil & météo","Météo + célébration de la micro-action réalisée (ou exploration bienveillante si non faite)."],
+  [5,20,"Bilan des progrès","Reprendre les 5 échelles de la S1 et re-mesurer aujourd’hui. Visualiser les écarts ensemble. <em>« Qu’est-ce qui va mieux ? Quelles compétences sont plus solides ? Qu’est-ce qui reste fragile ? »</em>"],
+  [20,35,"Stratégie de réussite","Reconstituer LA séquence qui fonctionne pour lui : déclencheur → pensée utile → geste d’ancrage → action choisie → résultat. La faire écrire comme une recette personnelle."],
+  [35,50,"Plan de prévention des rechutes","Construire : signes d’alerte (les siens), personnes à contacter (3 noms + numéros), comportements protecteurs, ressources internes. <em>« À quoi reconnaîtras-tu que ça recommence à être difficile ? Que feras-tu dans les 24 h ? »</em>"],
+  [50,60,"Rituel de solidité","Créer un rituel personnel : phrase + geste + image mentale (+ musique, respiration). Mission + annonce de la dernière séance."]
+ ],
+ inter:"Utiliser le plan de prévention au moins une fois, même à titre préventif.",
+ warn:["Si les échelles montrent peu de progrès : ne pas dramatiser, chercher les progrès qualitatifs, et questionner l’opportunité d’un relais thérapeutique.","Le plan de prévention doit être réaliste et affiché quelque part (téléphone, chambre).","Commencer à nommer explicitement la fin du parcours pour préparer la séparation."],
+ crit:"Le jeune verbalise sa propre stratégie de réussite et possède un plan de prévention écrit et complet.",
+ scales:"final"},
+
+{n:10,e:4,t:"Clôture & engagement dans l’avenir",
+ obj:"Célébrer le chemin parcouru et ancrer un plan de continuité.",
+ mat:["Papier à lettre pour la « lettre au moi du départ »","Récapitulatif de la boîte à outils","Petit élément symbolique de clôture"],
+ seq:[
+  [0,5,"Accueil & météo","Météo + retour sur l’usage du plan de prévention."],
+  [5,15,"Retour sur le parcours","<em>« Qu’as-tu appris sur toi ? »</em> <em>« De quoi es-tu fier ? »</em> <em>« Qu’est-ce que tu veux garder de ces séances ? »</em>"],
+  [15,30,"Lettre au moi du départ","Écrire une courte lettre : ce que j’aurais aimé entendre au début, ce que j’ai découvert, ce que je me souhaite pour la suite. Proposer (sans obliger) de la lire à voix haute. Le jeune garde la lettre."],
+  [30,45,"Boîte à outils finale","Rassembler sur une page : ancrage, respiration 4/6, phrases ressources, personnes de confiance, stratégies de limites, micro-actions, plan de prévention. Vérifier que le jeune sait quand utiliser quoi."],
+  [45,55,"Cérémonie de clôture","Marquer symboliquement : une réussite nommée, une qualité retrouvée, un engagement pour l’avenir. Parole du coach : nommer sincèrement 2–3 forces observées chez le jeune pendant le parcours."],
+  [55,60,"Suite","Planifier le point de suivi à +1 mois. Rappeler les relais possibles (parents, école, professionnels) si besoin."]
+ ],
+ inter:"Vivre. Point de suivi planifié à +1 mois : réévaluation des 5 échelles et des besoins.",
+ warn:["Anticiper l’émotion de la séparation : la nommer, la normaliser.","Ne pas créer de dépendance : la porte reste ouverte, mais le message central est « tu as les outils ».","Si des fragilités importantes persistent : proposer aux parents un relais (psychologue, dispositifs locaux) avec des contacts concrets."],
+ crit:"Le jeune repart avec sa boîte à outils complète, une clôture célébrée et un rendez-vous de suivi posé."}
+];
+
+const ECHELLES = [
+ {k:"stress",l:"Stress"},{k:"conf",l:"Confiance"},{k:"secu",l:"Sécurité"},{k:"ener",l:"Énergie"},{k:"parl",l:"Envie de parler"}
+];
+
+/* ---------- état ---------- */
+const KEY="phenix.coach.v1", PKEY="phenix.a11y.v1";
+const DEMO={youths:[{id:"y1",name:"Noah D. (exemple)",age:14,start:"2026-09-01",
+  s:{1:{done:true,note:"Contrat posé et signé. A choisi le geste pouce-index. Lieu ressource : la plage de l’Ermitage."},
+     2:{done:true,note:"Ancrage testé à froid : passe de 4 à 7 sur l’échelle d’apaisement. Inventaire : 3 qualités trouvées via le regard du meilleur ami."},
+     3:{done:true,note:"Exception trouvée sur « tout le monde se moque de moi » : deux élèves de la classe ne participent pas."}},
+  base:{stress:8,conf:2,secu:3,ener:4,parl:2}, final:null}],
+ cur:"y1"};
+function load(k,def){ try{const r=localStorage.getItem(k); if(r) return JSON.parse(r);}catch(e){} return JSON.parse(JSON.stringify(def)); }
+function store(k,v){ try{localStorage.setItem(k,JSON.stringify(v));}catch(e){} }
+/* Données lues ou importées : on ne garde que ce qui a la bonne forme (stockage altéré, fichier étranger). */
+const clampN=(v,a,b,d)=>{ v=parseInt(v,10); return Number.isFinite(v)?Math.min(b,Math.max(a,v)):d; };
+function cleanScales(o){ if(!o||typeof o!=="object") return null; const r={}; for(const e of ECHELLES) r[e.k]=clampN(o[e.k],0,10,5); return r; }
+function cleanState(raw){
+  if(!raw||typeof raw!=="object"||!Array.isArray(raw.youths)) return null;
+  const youths=raw.youths.filter(y=>y&&typeof y==="object"&&typeof y.name==="string"&&y.name.trim()).map((y,i)=>{
+    const s={}; if(y.s&&typeof y.s==="object") for(let n=1;n<=10;n++){ const r=y.s[n]; if(r&&typeof r==="object")
+      s[n]={done:!!r.done,note:typeof r.note==="string"?r.note:"",at:/^\d{4}-\d{2}-\d{2}$/.test(r.at||"")?r.at:undefined,alert:!!r.alert}; }
+    return {id:typeof y.id==="string"&&y.id?y.id:"y"+Date.now()+i,name:y.name.trim().slice(0,60),age:clampN(y.age,10,18,14),
+      start:/^\d{4}-\d{2}-\d{2}$/.test(y.start||"")?y.start:new Date().toISOString().slice(0,10),s,base:cleanScales(y.base),final:cleanScales(y.final)};
+  });
+  const ids=new Set(); youths.forEach(y=>{ while(ids.has(y.id)) y.id+="x"; ids.add(y.id); });
+  return {youths,cur:youths.some(y=>y.id===raw.cur)?raw.cur:(youths[0]?.id||null),backupAt:typeof raw.backupAt==="string"?raw.backupAt:null};
+}
+let S=cleanState(load(KEY,DEMO))||cleanState(DEMO);
+const P=Object.assign({audio:false,focus:false,timer:true,chime:true,voice:"",rate:1,size:"m",contrast:false},load(PKEY,{}));
+const saveS=()=>store(KEY,S), saveP=()=>store(PKEY,P);
+function Y(){ return (S.youths||[]).find(y=>y.id===S.cur) || null; }
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+let view="home", openS=1;
+
+const STEPC={1:["var(--e1)","var(--e1s)"],2:["var(--e2)","var(--e2s)"],3:["var(--e3)","var(--e3s)"],4:["var(--e4)","var(--e4s)"]};
+const stepStyle=e=>`--ec:${STEPC[e][0]};--es:${STEPC[e][1]}`;
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function fmt(d){ if(!d) return "—"; const p=d.split("-"); return p.length===3?`${p[2]}/${p[1]}/${p[0]}`:d; }
+const MOIS=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+function fmtSay(d){ const p=(d||"").split("-"); return p.length===3?`${+p[2]} ${MOIS[+p[1]-1]} ${p[0]}`:"date inconnue"; }
+function doneCount(y){ return Object.values(y.s||{}).filter(x=>x&&x.done).length; }
+function nextSession(y){ for(let i=1;i<=10;i++){ if(!(y.s&&y.s[i]&&y.s[i].done)) return i; } return 10; }
+
+/* ---------- texte parlé ---------- */
+function forSpeech(t){
+  return String(t)
+    .replace(/<[^>]+>/g,"")
+    .replace(/[«»“”"]/g,"")
+    .replace(/\b3114\b/g,"3, 1, 1, 4")
+    .replace(/\bS(\d{1,2})\b/g,"séance $1")
+    .replace(/(\d+)\s*[–-]\s*(\d+)\s*min\b/g,"de $1 à $2 minutes")
+    .replace(/(\d+)\s*[–-]\s*(\d+)/g,"$1 à $2")
+    .replace(/(\d)\/(\d)\b/g,"$1, $2")
+    .replace(/\b(\d+)\s*h\b/g,"$1 heures")
+    .replace(/\s*&\s*/g," et ")
+    .replace(/→/g,", puis ")
+    .replace(/…/g,".")
+    .replace(/\s+/g," ").trim();
+}
+
+/* ---------- synthèse vocale ---------- */
+const TTS={ok:"speechSynthesis" in window, voices:[], q:[], i:0, label:"", paused:false, active:false, gen:0};
+function pickVoices(){
+  if(!TTS.ok) return;
+  const all=speechSynthesis.getVoices();
+  TTS.voices=all.filter(v=>/^fr/i.test(v.lang)).sort((a,b)=>(b.lang==="fr-FR")-(a.lang==="fr-FR")||(b.localService-a.localService));
+  const sel=$("#oVoice"); sel.innerHTML="";
+  if(!TTS.voices.length){ const o=document.createElement("option"); o.textContent="Voix par défaut"; o.value=""; sel.appendChild(o); $("#voiceD").textContent="Aucune voix française détectée : la voix par défaut sera utilisée."; return; }
+  TTS.voices.forEach(v=>{ const o=document.createElement("option"); o.value=v.voiceURI; o.textContent=`${v.name.replace(/Microsoft |Google |\(.*\)/g,"").trim()} · ${v.lang}`; sel.appendChild(o); });
+  if(P.voice && TTS.voices.some(v=>v.voiceURI===P.voice)) sel.value=P.voice; else { P.voice=TTS.voices[0].voiceURI; sel.value=P.voice; }
+  $("#voiceD").textContent=`${TTS.voices.length} voix française${TTS.voices.length>1?"s":""} disponible${TTS.voices.length>1?"s":""}.`;
+}
+function split(text){
+  const out=[];
+  (text.match(/[^.!?;:]+[.!?;:]*/g)||[text]).forEach(s=>{
+    s=s.trim(); if(!s) return;
+    while(s.length>220){ let c=s.lastIndexOf(",",220); if(c<60) c=s.lastIndexOf(" ",220); out.push(s.slice(0,c+1)); s=s.slice(c+1).trim(); }
+    if(s) out.push(s);
+  });
+  return out;
+}
+function speak(text,label="Lecture",opts={}){
+  if(!TTS.ok){ announce("La lecture vocale n’est pas disponible dans ce navigateur. Utilisez votre lecteur d’écran."); return; }
+  text=forSpeech(text); if(!text) return;
+  speechSynthesis.cancel();
+  TTS.gen++; TTS.q=split(text); TTS.i=0; TTS.label=label; TTS.paused=false; TTS.active=true; TTS.quiet=!!opts.quiet;
+  if(!TTS.quiet){ $("#player").hidden=false; $("#plLabel").textContent=label; }
+  playChunk();
+}
+function playChunk(){
+  const g=TTS.gen;
+  if(TTS.i>=TTS.q.length){ endSpeech(); return; }
+  const u=new SpeechSynthesisUtterance(TTS.q[TTS.i]);
+  u.lang="fr-FR"; u.rate=P.rate;
+  const v=TTS.voices.find(v=>v.voiceURI===P.voice); if(v) u.voice=v;
+  u.onend=()=>{ if(g!==TTS.gen||TTS.paused) return; TTS.i++; playChunk(); };
+  u.onerror=()=>{ if(g!==TTS.gen) return; TTS.i++; playChunk(); };
+  $("#plProg").textContent=TTS.q.length>1?`Phrase ${TTS.i+1} sur ${TTS.q.length}`:"";
+  speechSynthesis.speak(u);
+}
+function endSpeech(){ TTS.active=false; TTS.paused=false; $("#player").hidden=true; $("#player").classList.remove("paused"); }
+function stopSpeech(){ TTS.gen++; if(TTS.ok) speechSynthesis.cancel(); endSpeech(); }
+function togglePause(){
+  if(!TTS.active) return;
+  if(TTS.paused){ TTS.paused=false; speechSynthesis.cancel(); TTS.gen++; setPauseUI(false); playChunk(); }
+  else { TTS.paused=true; TTS.gen++; speechSynthesis.cancel(); setPauseUI(true); }
+}
+function setPauseUI(p){
+  $("#player").classList.toggle("paused",p);
+  $("#plPause").setAttribute("aria-label",p?"Reprendre":"Pause");
+  $("#plIcon").innerHTML=p?'<path d="M8 5v14l11-7z"/>':'<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>';
+}
+function jump(d){ if(!TTS.active) return; TTS.gen++; speechSynthesis.cancel(); TTS.i=Math.max(0,Math.min(TTS.q.length-1,TTS.i+d)); TTS.paused=false; setPauseUI(false); playChunk(); }
+if(TTS.ok){ pickVoices(); speechSynthesis.onvoiceschanged=pickVoices; }
+
+/* annonce : lecteur d’écran toujours, voix si mode audio */
+function announce(msg,{assertive=false,voice=true}={}){
+  const el=assertive?$("#liveA"):$("#live"); el.textContent=""; setTimeout(()=>{ el.textContent=msg; },40);
+  if(voice && P.audio) speak(msg,"Annonce",{quiet:true});
+}
+
+/* ---------- sons de repère ---------- */
+let AC=null;
+function tone(freqs,dur=.18,gap=.12,vol=.12){
+  if(!P.chime) return;
+  try{
+    AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+    let t=AC.currentTime+.02;
+    freqs.forEach(f=>{ const o=AC.createOscillator(), g=AC.createGain(); o.type="sine"; o.frequency.value=f;
+      g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+.02); g.gain.exponentialRampToValueAtTime(.0008,t+dur*3);
+      o.connect(g).connect(AC.destination); o.start(t); o.stop(t+dur*3.2); t+=gap; });
+  }catch(e){}
+}
+const chime={ok:()=>tone([660,880],.12,.1,.08), step:()=>tone([523,659,784],.25,.22,.14), soft:()=>tone([440],.15,.1,.07), end:()=>tone([784,659,523,392],.3,.25,.14)};
+
+/* ---------- navigation ---------- */
+function go(v,{focus=true}={}){
+  view=v;
+  $$(".view").forEach(s=>{ s.hidden = s.id!=="v-"+v; });
+  window.scrollTo({top:0});
+  if(focus){ const h=$("#v-"+v+" h1"); if(h) h.focus({preventScroll:true}); }
+  const t={home:"Accueil",youth:"Parcours de "+(Y()?.name||""),session:`Séance ${openS}`}[v];
+  document.title=`${t} · Phénix Ado`;
+}
+
+function ring(done,size=72){
+  const r=size/2-6, c=2*Math.PI*r, f=c*done/10;
+  return `<svg viewBox="0 0 ${size} ${size}" aria-hidden="true"><circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="var(--surface-2)" stroke-width="7"/><circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="var(--sage)" stroke-width="7" stroke-linecap="round" stroke-dasharray="${f} ${c}"/></svg><span class="n">${done}/10</span>`;
+}
+
+function renderSteps(){
+  const g={}; SESSIONS.forEach(s=>{ (g[s.e]=g[s.e]||[]).push(s.n); });
+  $(".steps4").innerHTML=Object.keys(ETAPES).map(e=>{ const l=g[e]||[]; const r=l.length>1?`S${l[0]}–S${l[l.length-1]}`:`S${l[0]}`;
+    return `<li style="${stepStyle(e)}" aria-label="Étape ${e}, ${ETAPES[e]}, séances ${l.join(", ")}"><b>${r}</b>${ETAPES[e]}</li>`; }).join("");
+}
+
+function renderPick(){
+  const p=$("#pick"); p.innerHTML="";
+  (S.youths||[]).forEach(y=>{ const o=document.createElement("option"); o.value=y.id; o.textContent=`${y.name} · ${y.age} ans`; p.appendChild(o); });
+  if(S.cur) p.value=S.cur;
+  p.hidden=!(S.youths||[]).length;
+}
+
+function renderHome(){
+  const g=$("#youths"); g.innerHTML="";
+  (S.youths||[]).forEach(y=>{
+    const dn=doneCount(y), nx=SESSIONS[nextSession(y)-1];
+    const li=document.createElement("li");
+    const b=document.createElement("button"); b.className="ycard"; b.style.cssText=stepStyle(nx.e);
+    b.setAttribute("aria-label",`${y.name}, ${y.age} ans. ${dn} séance${dn>1?"s":""} sur 10 réalisée${dn>1?"s":""}. Étape en cours : ${ETAPES[nx.e]}. Ouvrir le parcours.`);
+    b.innerHTML=`<div class="ring">${ring(dn)}</div>
+      <div><div class="nm">${esc(y.name)}</div>
+      <div class="meta">${esc(y.age)} ans · début le ${fmt(y.start)}</div>
+      <span class="pill"><i></i>Étape ${nx.e} · ${ETAPES[nx.e]}</span></div>`;
+    b.addEventListener("click",()=>{ S.cur=y.id; saveS(); renderPick(); renderYouth(); go("youth"); chime.soft(); announceView(); });
+    li.appendChild(b); g.appendChild(li);
+  });
+  if(!(S.youths||[]).length) g.innerHTML=`<li class="hint">Aucun parcours pour l’instant. Créez le premier ci-dessous.</li>`;
+}
+
+function renderYouth(){
+  const y=Y(); if(!y){ go("home"); return; }
+  const dn=doneCount(y), nx=nextSession(y);
+  $("#yRing").innerHTML=ring(dn,88);
+  $("#yTitle").textContent=y.name;
+  $("#ySub").textContent=`${y.age} ans · démarré le ${fmt(y.start)} · ${dn} séance${dn>1?"s":""} sur 10 réalisée${dn>1?"s":""}`;
+  $("#goNext").textContent = dn>=10 ? "Revoir la séance 10" : `Ouvrir la séance ${nx}`;
+  const l=$("#sessions"); l.innerHTML="";
+  SESSIONS.forEach(s=>{
+    const rec=(y.s&&y.s[s.n])||{}, done=!!rec.done, isNext=!done&&s.n===nx;
+    const li=document.createElement("li");
+    const b=document.createElement("button"); b.className="scard"+(done?" done":"")+(isNext?" next":""); b.style.cssText=stepStyle(s.e);
+    b.setAttribute("aria-label",`Séance ${s.n} : ${s.t}. Étape ${s.e}, ${ETAPES[s.e]}. ${done?"Réalisée"+(rec.at?" le "+fmtSay(rec.at):"")+".":isNext?"Prochaine séance.":"À venir."}${rec.alert?" Signal d’alerte noté, mode soutien.":""}`);
+    b.innerHTML=`<div class="sn"><span>S${s.n} · ${ETAPES[s.e].toUpperCase()}</span></div>
+      <div class="st">${esc(s.t)}</div>
+      <div class="se">${done?'<svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5 10 17l9-10"/></svg>Réalisée'+(rec.at?` <span class="when">· ${fmt(rec.at)}</span>`:""):isNext?"Prochaine · 60 min":"60 min · individuel"}${rec.alert?' <span class="alertchip" aria-hidden="true">Alerte</span>':""}</div>`;
+    b.addEventListener("click",()=>openSession(s.n));
+    li.appendChild(b); l.appendChild(li);
+  });
+  const t=$("#cmp"), cap=t.querySelector("caption").outerHTML;
+  let h=`${cap}<thead><tr><th scope="col">Échelle</th><th scope="col">S1</th><th scope="col">S9</th><th scope="col">Écart</th></tr></thead><tbody>`;
+  ECHELLES.forEach(e=>{
+    const a=y.base?y.base[e.k]:null, b=y.final?y.final[e.k]:null, d=(a!=null&&b!=null)?(b-a):null;
+    const good = d===null?null:(e.k==="stress"? d<0 : d>0), bad = d===null?null:(e.k==="stress"? d>0 : d<0);
+    const lbl = d===null?"non mesuré":(d===0?"stable":(good?"progrès":"recul"));
+    h+=`<tr><th scope="row">${e.l}</th><td class="n">${a??"—"}${a!=null?`<span class="bar" style="width:${a*6}px" aria-hidden="true"></span>`:""}</td><td class="n">${b??"—"}</td><td class="n ${good?"up":bad?"dn":""}">${d===null?"—":(d>0?"+"+d:d)} <span class="sr">${lbl}</span></td></tr>`;
+  });
+  t.innerHTML=h+"</tbody>";
+}
+
+/* ---------- séance ---------- */
+let timer=null, elapsed=0, t0=0, lastSeg=null, warned={};
+function mmss(s){ return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0"); }
+function curSegIndex(sec){ const m=sec/60, s=SESSIONS[openS-1]; let c=null; s.seq.forEach((g,i)=>{ if(m>=g[0]&&m<g[1]) c=i; }); if(m>=60) c=s.seq.length-1; return c; }
+function paintSeg(cur){
+  const s=SESSIONS[openS-1];
+  $$("#sSeq .seg").forEach((el,i)=>{ el.classList.toggle("active",i===cur); if(i===cur) el.setAttribute("aria-current","step"); else el.removeAttribute("aria-current"); });
+  $$("#track span").forEach((el,i)=>{ el.classList.toggle("cur",i===cur); el.classList.toggle("past",cur!==null&&i<cur); });
+  if(cur===null) return;
+  const g=s.seq[cur], left=Math.max(0,Math.ceil(g[1]-elapsed/60));
+  $("#nowSeg").innerHTML=`En cours : <b>${esc(g[2])}</b><small>jusqu’à ${g[1]} min · encore ${left} min environ</small>`;
+}
+function tick(){
+  elapsed=Math.floor((Date.now()-t0)/1000);
+  $("#clock").textContent=mmss(elapsed);
+  const cur=curSegIndex(elapsed), s=SESSIONS[openS-1];
+  paintSeg(cur);
+  if(cur!==lastSeg && cur!==null){
+    const g=s.seq[cur];
+    if(lastSeg!==null || elapsed>2){
+      chime.step();
+      if(P.timer){ const msg=`${Math.floor(elapsed/60)} minutes. Étape suivante : ${g[2]}, jusqu’à ${g[1]} minutes.`; $("#liveA").textContent=msg; if(TTS.ok) setTimeout(()=>speak(msg,"Minuteur",{quiet:true}),900); }
+    }
+    lastSeg=cur;
+  }
+  if(cur!==null){ const g=s.seq[cur], rem=g[1]*60-elapsed;
+    if(P.timer && g[1]-g[0]>=10 && rem<=120 && rem>0 && !warned[cur]){ warned[cur]=1; chime.soft(); const msg=`Encore 2 minutes pour ${g[2]}.`; $("#live").textContent=msg; speak(msg,"Minuteur",{quiet:true}); } }
+  if(elapsed>=3600 && !warned.end){ warned.end=1; chime.end(); if(P.timer) speak("60 minutes. La séance est terminée. Pensez à l’échelle de sortie.","Minuteur",{quiet:true}); }
+}
+let wake=null;
+async function holdScreen(){ try{ wake=await navigator.wakeLock?.request("screen"); }catch(e){} }
+async function startTimer(){
+  t0=Date.now()-elapsed*1000; timer=setInterval(tick,1000); tick();
+  $("#tStart span").textContent="Pause"; $("#tStart").setAttribute("aria-label","Mettre le minuteur en pause");
+  $("#tStart svg").innerHTML='<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>';
+  await holdScreen();
+}
+/* le navigateur libère le verrou d’écran quand l’onglet passe en arrière-plan : on le reprend au retour */
+document.addEventListener("visibilitychange",()=>{ if(!document.hidden && timer) { tick(); holdScreen(); } });
+function stopTimer(){
+  if(timer){clearInterval(timer);timer=null;}
+  $("#tStart span").textContent=elapsed?"Reprendre":"Démarrer"; $("#tStart").removeAttribute("aria-label");
+  $("#tStart svg").innerHTML='<path d="M8 5v14l11-7z"/>';
+  try{ wake?.release(); }catch(e){} wake=null;
+}
+function toggleTimer(){
+  if(view!=="session") return;
+  if(timer){ stopTimer(); announce(`Minuteur en pause à ${sayTime(elapsed)}.`); }
+  else { if(!elapsed){ lastSeg=null; warned={}; } startTimer(); chime.ok(); announce(elapsed>2?`Minuteur repris à ${sayTime(elapsed)}.`:"Minuteur démarré. Séance de 60 minutes.",{voice:true}); }
+}
+function sayTime(s){ const m=Math.floor(s/60), r=s%60; return `${m} minute${m>1?"s":""}${r?` ${r} seconde${r>1?"s":""}`:""}`; }
+
+function openSession(n,{announceIt=true}={}){ openS=n; renderSession(); go("session"); chime.soft(); if(announceIt) announceView(); }
+
+function renderSession(){
+  const y=Y(), s=SESSIONS[openS-1];
+  $("#v-session").style.cssText=stepStyle(s.e);
+  $("#sMeta").textContent=`SÉANCE ${s.n} / 10 · ÉTAPE ${s.e} · ${ETAPES[s.e].toUpperCase()} · 60 MIN`;
+  $("#sTitle").textContent=s.t;
+  $("#sObj").textContent=s.obj;
+  $("#sMat").innerHTML=s.mat.map(m=>`<li class="chip">${esc(m)}</li>`).join("");
+  $("#sSeq").innerHTML=s.seq.map((g,i)=>`<li class="seg" data-i="${i}">
+     <div class="tm">${g[0]}–${g[1]} min<small>${g[1]-g[0]} min</small><span class="nowtag">En cours</span></div>
+     <div class="nm">${g[2]}</div><div class="cs">${g[3]}</div>
+     <button class="listen" data-seg="${i}" aria-label="Écouter l’étape ${esc(g[2])}"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Écouter</button></li>`).join("");
+  $("#track").innerHTML=s.seq.map(g=>`<span style="flex:${g[1]-g[0]}"></span>`).join("");
+  $("#sInter").textContent=s.inter;
+  $("#sWarn").innerHTML=s.warn.map(w=>`<li>${w}</li>`).join("");
+  $("#sCrit").textContent=s.crit;
+  const rec=(y.s&&y.s[s.n])||{};
+  $("#sNote").value=rec.note||""; $("#sDone").checked=!!rec.done;
+  paintSupport(!!rec.alert);
+  $("#sPrev").textContent=openS>1?`← Séance ${openS-1}`:"Début"; $("#sPrev").disabled=openS<=1;
+  $("#sNext").textContent=openS<10?`Séance ${openS+1} →`:"Fin du parcours"; $("#sNext").disabled=openS>=10;
+
+  const sb=$("#scalesBlock");
+  if(s.scales){
+    sb.hidden=false;
+    $("#scalesTitle").textContent = s.scales==="base" ? "Échelles 0 à 10 · ligne de base" : "Échelles 0 à 10 · re-mesure";
+    const st = s.scales==="base" ? y.base : y.final;
+    $("#sScales").innerHTML = ECHELLES.map(e=>{ const v = st? st[e.k] : 5;
+      const ref = (s.scales==="final" && y.base) ? ` <span class="ref">(séance 1 : ${y.base[e.k]})</span>` : "";
+      return `<div class="r"><label for="e-${e.k}"><span>${e.l}${ref}</span><span class="v" id="ev-${e.k}" aria-hidden="true">${v} / 10</span></label>
+      <input type="range" min="0" max="10" step="1" value="${v}" id="e-${e.k}" aria-valuetext="${e.l} : ${v} sur 10">
+      <div class="ends" aria-hidden="true"><span>0</span><span>5</span><span>10</span></div></div>`; }).join("");
+    ECHELLES.forEach(e=>{
+      const inp=$("#e-"+e.k); let tmo=null;
+      inp.addEventListener("input",ev=>{ const v=ev.target.value; $("#ev-"+e.k).textContent=v+" / 10"; inp.setAttribute("aria-valuetext",`${e.l} : ${v} sur 10`);
+        if(P.audio){ clearTimeout(tmo); tmo=setTimeout(()=>speak(`${e.l}, ${v}`,"Échelle",{quiet:true}),250); } });
+    });
+  } else sb.hidden=true;
+
+  stopTimer(); elapsed=0; lastSeg=null; warned={}; $("#clock").textContent="00:00";
+  $("#tStart span").textContent="Démarrer";
+  $("#nowSeg").innerHTML="Minuteur à l’arrêt.<small>La trame s’éclaire au fil des 60 minutes.</small>";
+  paintSeg(null);
+}
+
+/* ---------- textes à lire ---------- */
+const TXT={
+  safety:()=>$("#safetyT").parentElement.textContent.replace("Écouter le cadre",""),
+  home:()=>{ const ys=S.youths||[]; let t=`Accueil de la console Phénix Ado. ${ys.length} parcours en cours. `;
+    ys.forEach(y=>{ const d=doneCount(y), nx=SESSIONS[nextSession(y)-1]; t+=`${y.name}, ${y.age} ans : ${d} séance${d>1?"s":""} sur 10, étape ${ETAPES[nx.e]}. `; });
+    return t+"Pour créer un nouveau parcours, descendez jusqu’au formulaire Nouveau parcours."; },
+  youth:()=>{ const y=Y(); if(!y) return ""; const d=doneCount(y), nx=nextSession(y);
+    let t=`Parcours de ${y.name}, ${y.age} ans, démarré le ${fmtSay(y.start)}. ${d} séance${d>1?"s":""} sur 10 réalisée${d>1?"s":""}. `;
+    t+= d>=10 ? "Le parcours est terminé. " : `Prochaine séance : séance ${nx}, ${SESSIONS[nx-1].t}. `;
+    if(y.base){ t+="Échelles de départ : "+ECHELLES.map(e=>`${e.l} ${y.base[e.k]}`).join(", ")+". "; }
+    if(y.base&&y.final){ t+="Re-mesure : "+ECHELLES.map(e=>{ const df=y.final[e.k]-y.base[e.k]; return `${e.l} ${y.final[e.k]}, ${df===0?"stable":(df>0?"plus "+df:"moins "+(-df))}`; }).join(", ")+"."; }
+    return t; },
+  head:()=>{ const s=SESSIONS[openS-1]; return `Séance ${s.n} sur 10. Étape ${s.e}, ${ETAPES[s.e]}. ${s.t}. `; },
+  obj:()=>"Objectif. "+SESSIONS[openS-1].obj,
+  mat:()=>"Matériel à préparer : "+SESSIONS[openS-1].mat.join(". ")+".",
+  segOne:i=>{ const g=SESSIONS[openS-1].seq[i]; return `De ${g[0]} à ${g[1]} minutes. ${g[2]}. ${g[3]}`; },
+  seq:()=>"Déroulé minuté. "+SESSIONS[openS-1].seq.map((g,i)=>TXT.segOne(i)).join(" "),
+  inter:()=>"Travail inter-séances. "+SESSIONS[openS-1].inter,
+  warn:()=>"Points de vigilance. "+SESSIONS[openS-1].warn.map((w,i)=>`${i+1}. ${w}`).join(" "),
+  crit:()=>"Critère de réussite. "+SESSIONS[openS-1].crit,
+  note:()=>{ const v=$("#sNote").value.trim(); return v?"Vos notes. "+v:"Aucune note pour cette séance."; },
+  session:()=>[TXT.head(),TXT.obj(),TXT.mat(),TXT.seq(),TXT.inter(),TXT.warn(),TXT.crit()].join(" ")
+};
+const LABELS={safety:"Cadre de sécurité",home:"Accueil",youth:"Parcours",obj:"Objectif",mat:"Matériel",seq:"Déroulé minuté",inter:"Travail inter-séances",warn:"Vigilance",crit:"Critère de réussite",note:"Notes",session:"Séance complète"};
+function sayKey(k){ const label=(k==="session"||k==="seq"||k==="obj")?`S${openS} · ${LABELS[k]}`:LABELS[k]; speak(TXT[k](),label); }
+function readView(){ sayKey(view==="home"?"home":view==="youth"?"youth":"session"); }
+function whereAmI(){
+  let t = view==="home" ? "Vous êtes sur l’accueil." : view==="youth" ? `Vous êtes sur le parcours de ${Y()?.name}.` : `Vous êtes dans la séance ${openS}, ${SESSIONS[openS-1].t}.`;
+  if(view==="session"){ t+= timer ? ` Minuteur en marche : ${sayTime(elapsed)}.` : elapsed ? ` Minuteur en pause à ${sayTime(elapsed)}.` : " Minuteur à l’arrêt."; const c=curSegIndex(elapsed); if(elapsed&&c!==null) t+=` Étape en cours : ${SESSIONS[openS-1].seq[c][2]}.`; }
+  $("#liveA").textContent=t; speak(t,"Où suis-je ?");
+}
+function announceView(){
+  if(!P.audio) return;
+  const t = view==="home" ? `Accueil. ${(S.youths||[]).length} parcours.` : view==="youth" ? TXT.youth() : TXT.head()+" Utilisez Écouter toute la séance, ou Alt Maj L.";
+  speak(t,"Annonce",{quiet:true});
+}
+
+/* ---------- préférences ---------- */
+function applyPrefs(){
+  const r=document.documentElement;
+  if(P.size==="m") r.removeAttribute("data-size"); else r.setAttribute("data-size",P.size);
+  if(P.contrast) r.setAttribute("data-contrast","high"); else r.removeAttribute("data-contrast");
+  $("#oAudio").checked=P.audio; $("#oFocus").checked=P.focus; $("#oTimer").checked=P.timer; $("#oChime").checked=P.chime; $("#oContrast").checked=P.contrast;
+  $("#oRate").value=P.rate; $("#rateV").textContent=String(P.rate.toFixed(1)).replace(".",",");
+  $("#oRate").setAttribute("aria-valuetext",`vitesse ${String(P.rate.toFixed(1)).replace(".",",")}`);
+  $$(".seg-ctl button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.size===P.size)));
+  $("#audioToggle").setAttribute("aria-pressed",String(P.audio));
+  $("#audioLabel").textContent=P.audio?"Audio activé":"Mode audio";
+  requestAnimationFrame(()=>document.documentElement.style.setProperty("--top-h",$("#top").offsetHeight+10+"px"));
+  if(!TTS.ok){ $("#ttsNote").textContent="La synthèse vocale n’est pas disponible dans ce navigateur. La page reste entièrement lisible par votre lecteur d’écran (NVDA, JAWS, VoiceOver, TalkBack)."; }
+}
+function setAudio(on){
+  P.audio=on; saveP(); applyPrefs();
+  if(on){ chime.ok(); speak("Mode audio activé. La page vous parlera à chaque changement d’écran. Alt, Maj, L pour lire l’écran, Échap pour arrêter. Alt, Maj, K pour les réglages.","Mode audio",{quiet:true}); $("#live").textContent="Mode audio activé."; }
+  else { stopSpeech(); chime.soft(); $("#live").textContent="Mode audio désactivé."; }
+}
+
+/* ---------- évènements ---------- */
+$("#brand").addEventListener("click",()=>{ stopTimer(); renderHome(); go("home"); announceView(); });
+$("#pick").addEventListener("change",e=>{ S.cur=e.target.value; saveS(); stopTimer(); renderYouth(); go("youth"); announceView(); });
+$("#audioToggle").addEventListener("click",()=>setAudio(!P.audio));
+$("#goNext").addEventListener("click",()=>{ const y=Y(); openSession(Math.min(nextSession(y),10)); });
+$("#sBack").addEventListener("click",()=>{ stopTimer(); renderYouth(); go("youth"); announceView(); });
+
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-say]"); if(b){ sayKey(b.dataset.say); return; }
+  const sg=e.target.closest("[data-seg]"); if(sg){ const i=+sg.dataset.seg; speak(TXT.segOne(i),`S${openS} · ${SESSIONS[openS-1].seq[i][2]}`); }
+});
+
+$("#newForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const n=$("#nyName").value.trim();
+  if(!n){ $("#nyErr").textContent="Indiquez un prénom ou des initiales."; $("#nyName").setAttribute("aria-invalid","true"); $("#nyName").focus(); announce("Indiquez un prénom ou des initiales.",{assertive:true}); return; }
+  $("#nyErr").textContent=""; $("#nyName").removeAttribute("aria-invalid");
+  const y={id:"y"+Date.now(),name:n,age:clampN($("#nyAge").value,10,18,14),start:$("#nyDate").value||new Date().toISOString().slice(0,10),s:{},base:null,final:null};
+  S.youths=S.youths||[]; S.youths.push(y); S.cur=y.id; saveS();
+  e.target.reset(); renderPick(); renderYouth(); go("youth"); chime.ok();
+  announce(`Parcours créé pour ${n}. Première séance : ${SESSIONS[0].t}.`);
+});
+
+$("#exportBtn").addEventListener("click",async()=>{
+  const json=backupJSON(), b=$("#exportBtn"), box=$("#exportBox");
+  try{ await navigator.clipboard.writeText(json); b.textContent="Sauvegarde copiée"; chime.ok(); announce("Sauvegarde copiée dans le presse-papiers. Collez-la dans un fichier sûr."); box.hidden=true; }
+  catch(err){ box.hidden=false; box.value=json; box.focus(); box.select(); b.textContent="Copiez le texte sélectionné"; announce("Copie automatique impossible. Le texte est sélectionné : appuyez sur Contrôle C."); }
+  setTimeout(()=>{ b.textContent="Copier (JSON)"; },5000);
+});
+
+let noteT=null;
+$("#sNote").addEventListener("input",e=>{ const y=Y(); y.s=y.s||{}; y.s[openS]=y.s[openS]||{}; y.s[openS].note=e.target.value; clearTimeout(noteT); noteT=setTimeout(saveS,300); });
+$("#sDone").addEventListener("change",e=>{ const y=Y(); y.s=y.s||{}; y.s[openS]=y.s[openS]||{}; y.s[openS].done=e.target.checked;
+  if(e.target.checked){ if(!y.s[openS].at) y.s[openS].at=new Date().toISOString().slice(0,10); } else delete y.s[openS].at;
+  saveS();
+  if(e.target.checked){ chime.ok(); announce(`Séance ${openS} marquée comme réalisée.`); } else announce(`Séance ${openS} marquée comme non réalisée.`); });
+$("#sPrev").addEventListener("click",()=>{ if(openS>1) openSession(openS-1); });
+$("#sNext").addEventListener("click",()=>{ if(openS<10) openSession(openS+1); });
+$("#saveScales").addEventListener("click",()=>{
+  const y=Y(), s=SESSIONS[openS-1], v={};
+  ECHELLES.forEach(e=>{ v[e.k]=parseInt($("#e-"+e.k).value,10); });
+  if(s.scales==="base") y.base=v; else y.final=v;
+  saveS(); chime.ok(); $("#scaleMsg").textContent="Échelles enregistrées.";
+  if(P.audio) speak("Échelles enregistrées. "+ECHELLES.map(e=>`${e.l} ${v[e.k]}`).join(", "),"Échelles",{quiet:true});
+  setTimeout(()=>$("#scaleMsg").textContent="",3000);
+});
+$("#tStart").addEventListener("click",toggleTimer);
+$("#tReset").addEventListener("click",()=>{ stopTimer(); elapsed=0; lastSeg=null; warned={}; $("#clock").textContent="00:00"; $("#tStart span").textContent="Démarrer";
+  paintSeg(null); $("#nowSeg").innerHTML="Minuteur remis à zéro.<small>Prêt pour une nouvelle séance.</small>"; announce("Minuteur remis à zéro."); });
+
+/* ---------- confirmation accessible (remplace window.confirm) ---------- */
+function ask(title,text,okLabel="Confirmer"){
+  return new Promise(res=>{
+    const d=$("#askDlg"); $("#askT").textContent=title; $("#askD").textContent=text; $("#askYes").textContent=okLabel;
+    const from=document.activeElement; let out=false;
+    const fin=v=>{ if(out) return; out=true; d.close(); from?.focus?.(); res(v); };
+    $("#askYes").onclick=()=>fin(true); $("#askNo").onclick=()=>fin(false);
+    d.oncancel=e=>{ e.preventDefault(); fin(false); };
+    try{ d.showModal(); }catch(e){ d.setAttribute("open",""); }
+    $("#askNo").focus();
+    if(P.audio) speak(`${title}. ${text}`,"Confirmation",{quiet:true});
+  });
+}
+
+/* ---------- mode soutien ---------- */
+function paintSupport(on){
+  $("#v-session").classList.toggle("support-on",on);
+  $("#supportBox").hidden=!on;
+  const b=$("#supportBtn"); b.setAttribute("aria-pressed",String(on));
+  b.textContent=on?"Retirer le mode soutien":"Signal d’alerte : mode soutien";
+}
+$("#supportBtn").addEventListener("click",async()=>{
+  const y=Y(); y.s=y.s||{}; y.s[openS]=y.s[openS]||{};
+  const on=!y.s[openS].alert;
+  if(on){ const ok=await ask("Passer en mode soutien ?","La séance bascule sans exercice. Pensez à informer les parents et à orienter vers un professionnel de santé.","Passer en mode soutien"); if(!ok) return; }
+  y.s[openS].alert=on; saveS(); paintSupport(on); chime.soft();
+  announce(on?"Mode soutien activé. Aucun exercice. Informez les parents et orientez vers un professionnel de santé. En cas d’idées suicidaires, appelez le 3, 1, 1, 4.":"Mode soutien retiré.",{assertive:on});
+  if(on) $("#supT").parentElement.scrollIntoView({block:"nearest"});
+});
+$("#printBtn").addEventListener("click",()=>window.print());
+
+/* ---------- parcours : suppression ---------- */
+$("#delYouth").addEventListener("click",async()=>{
+  const y=Y(); if(!y) return;
+  const ok=await ask(`Supprimer le parcours de ${y.name} ?`,"Toutes les notes et échelles de ce parcours seront effacées de cet appareil. Pensez à télécharger une sauvegarde avant.","Supprimer");
+  if(!ok) return;
+  stopTimer(); S.youths=S.youths.filter(x=>x.id!==y.id); S.cur=S.youths[0]?.id||null; saveS();
+  renderPick(); renderHome(); go("home"); chime.soft(); announce(`Parcours de ${y.name} supprimé.`);
+});
+
+/* ---------- sauvegarde / restauration ---------- */
+function backupLabel(){
+  const el=$("#backupStamp"); el.classList.remove("old");
+  if(!S.backupAt){ el.textContent="Aucune sauvegarde faite depuis cet appareil. Les données ne sont que dans ce navigateur."; el.classList.add("old"); return; }
+  const d=new Date(S.backupAt), days=Math.floor((Date.now()-d)/864e5);
+  el.textContent=`Dernière sauvegarde : ${d.toLocaleDateString("fr-FR")} à ${d.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"})}${days>=14?` (il y a ${days} jours)`:""}.`;
+  if(days>=14) el.classList.add("old");
+}
+function backupJSON(){ S.backupAt=new Date().toISOString(); saveS(); backupLabel(); return JSON.stringify(S,null,2); }
+function backupMsg(t,bad=false){ const m=$("#backupMsg"); m.textContent=t; m.classList.toggle("bad",bad); announce(t,{assertive:bad}); }
+$("#downloadBtn").addEventListener("click",()=>{
+  const blob=new Blob([backupJSON()],{type:"application/json"}), a=document.createElement("a");
+  a.href=URL.createObjectURL(blob); a.download=`phenix-ado-sauvegarde-${new Date().toISOString().slice(0,10)}.json`;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+  chime.ok(); backupMsg("Sauvegarde téléchargée. Rangez le fichier dans un endroit sûr : il contient des notes de séance.");
+});
+$("#importBtn").addEventListener("click",()=>$("#importFile").click());
+$("#importFile").addEventListener("change",async e=>{
+  const f=e.target.files[0]; e.target.value=""; if(!f) return;
+  let data=null;
+  try{ if(f.size>5e6) throw 0; data=cleanState(JSON.parse(await f.text())); }catch(err){ data=null; }
+  if(!data){ backupMsg("Ce fichier n’est pas une sauvegarde Phénix Ado valide. Rien n’a été modifié.",true); return; }
+  const ok=await ask("Restaurer cette sauvegarde ?",`Le fichier contient ${data.youths.length} parcours. Les parcours actuellement sur cet appareil (${(S.youths||[]).length}) seront remplacés.`,"Remplacer");
+  if(!ok){ backupMsg("Restauration annulée."); return; }
+  S=data; saveS(); renderPick(); renderHome(); backupLabel(); go("home",{focus:false}); chime.ok();
+  backupMsg(`Sauvegarde restaurée : ${data.youths.length} parcours.`);
+});
+
+/* lecteur */
+$("#plPause").addEventListener("click",togglePause);
+$("#plStop").addEventListener("click",stopSpeech);
+$("#plPrev").addEventListener("click",()=>jump(-1));
+$("#plNext").addEventListener("click",()=>jump(1));
+
+/* panneau */
+const dlg=$("#a11yDlg");
+function openPanel(){ try{ dlg.showModal(); }catch(e){ dlg.setAttribute("open",""); } if(P.audio) speak("Réglages d’accessibilité et d’audio.","Réglages",{quiet:true}); }
+$("#a11yBtn").addEventListener("click",openPanel);
+$("#dlgClose").addEventListener("click",()=>dlg.close());
+dlg.addEventListener("close",()=>$("#a11yBtn").focus());
+$("#oAudio").addEventListener("change",e=>setAudio(e.target.checked));
+$("#oFocus").addEventListener("change",e=>{ P.focus=e.target.checked; saveP(); if(P.focus) speak("Lecture du focus activée.","Réglage",{quiet:true}); });
+$("#oTimer").addEventListener("change",e=>{ P.timer=e.target.checked; saveP(); });
+$("#oChime").addEventListener("change",e=>{ P.chime=e.target.checked; saveP(); chime.ok(); });
+$("#oContrast").addEventListener("change",e=>{ P.contrast=e.target.checked; saveP(); applyPrefs(); });
+$("#oVoice").addEventListener("change",e=>{ P.voice=e.target.value; saveP(); speak("Bonjour, voici ma voix.","Test",{quiet:true}); });
+$("#oRate").addEventListener("input",e=>{ P.rate=parseFloat(e.target.value); saveP(); applyPrefs(); });
+$("#oRate").addEventListener("change",()=>speak("Voici la nouvelle vitesse de lecture.","Test",{quiet:true}));
+$$(".seg-ctl button").forEach(b=>b.addEventListener("click",()=>{ P.size=b.dataset.size; saveP(); applyPrefs(); announce({m:"Texte normal.",l:"Texte agrandi.",xl:"Texte très agrandi."}[P.size]); }));
+$("#testVoice").addEventListener("click",()=>speak("Bonjour. Voici la voix de la console Phénix Ado. Inspirer quatre temps, expirer six temps.","Test de la voix"));
+
+/* lecture au focus */
+let focusT=null;
+document.addEventListener("focusin",e=>{
+  if(!P.focus||!TTS.ok) return;
+  const el=e.target; if(el.closest("#player")) return;
+  let t=el.getAttribute("aria-label")||"";
+  if(!t){ if(el.id&&document.querySelector(`label[for="${el.id}"]`)) t=document.querySelector(`label[for="${el.id}"]`).textContent; else t=el.textContent; }
+  if(el.type==="checkbox") t+= el.checked?", coché":", non coché";
+  if(el.tagName==="SELECT") t+=", "+(el.options[el.selectedIndex]?.text||"");
+  if(el.tagName==="H1") t="Titre : "+t;
+  clearTimeout(focusT); focusT=setTimeout(()=>speak(t.trim(),"Focus",{quiet:true}),120);
+});
+
+/* clavier */
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape" && TTS.active && !dlg.open){ stopSpeech(); e.preventDefault(); return; }
+  if(!(e.altKey&&e.shiftKey)) return;
+  const k=e.code; let hit=true;
+  if(k==="KeyA") setAudio(!P.audio);
+  else if(k==="KeyL") readView();
+  else if(k==="KeyO") whereAmI();
+  else if(k==="KeyM") toggleTimer();
+  else if(k==="KeyN"){ if(view==="session"&&openS<10) openSession(openS+1); }
+  else if(k==="KeyP"){ if(view==="session"&&openS>1) openSession(openS-1); }
+  else if(k==="KeyH"){ stopTimer(); renderHome(); go("home"); announceView(); }
+  else if(k==="KeyK") openPanel();
+  else hit=false;
+  if(hit) e.preventDefault();
+});
+window.addEventListener("resize",()=>document.documentElement.style.setProperty("--top-h",$("#top").offsetHeight+10+"px"));
+
+/* ---------- démarrage ---------- */
+if(!S.youths) S.youths=[];
+if(!S.cur && S.youths[0]) S.cur=S.youths[0].id;
+applyPrefs(); renderSteps(); renderPick(); renderHome(); backupLabel(); go("home",{focus:false});
+</script>
+
+</body></html>
